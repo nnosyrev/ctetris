@@ -1,7 +1,7 @@
 #include "area.h"
 #include "window.h"
 
-void Area_Show(Window_Window window, int x, int y)
+Area_Area Area_Show(Window_Window window, int x, int y, Area_Color color)
 {
     SDL_FRect rect;
 
@@ -10,23 +10,27 @@ void Area_Show(Window_Window window, int x, int y)
     rect.w = AREA_WIDTH * SQUARE_WIDTH;
     rect.h = AREA_HEIGHT * SQUARE_WIDTH;
 
-    SDL_SetRenderDrawColor(window.renderer, 0xfc, 0x0c, 0x0c, 0xff);
-    SDL_RenderFillRect(window.renderer, &rect);
-    SDL_RenderPresent(window.renderer);
-}
-
-void Area_DrawSquare(Window_Window window, int x, int y, Area_Color color)
-{
-    SDL_FRect rect;
-
-    rect.x = x * SQUARE_WIDTH /* Добавить смещение начала Area */ + 10;
-    rect.y = y * SQUARE_WIDTH /* Добавить смещение начала Area */ + 10;
-    rect.w = SQUARE_WIDTH;
-    rect.h = SQUARE_WIDTH;
-
     SDL_SetRenderDrawColor(window.renderer, color.r, color.g, color.b, color.alpha);
     SDL_RenderFillRect(window.renderer, &rect);
     SDL_RenderPresent(window.renderer);
+
+    Area_Area area = { .window = window, .x = x, .y = y, .color = color };
+
+    return area;
+}
+
+void Area_DrawSquare(Area_Area area, int x, int y, Area_Color color)
+{
+    SDL_FRect rect;
+
+    rect.x = x * SQUARE_WIDTH + area.x;
+    rect.y = y * SQUARE_WIDTH + area.y;
+    rect.w = SQUARE_WIDTH;
+    rect.h = SQUARE_WIDTH;
+
+    SDL_SetRenderDrawColor(area.window.renderer, color.r, color.g, color.b, color.alpha);
+    SDL_RenderFillRect(area.window.renderer, &rect);
+    SDL_RenderPresent(area.window.renderer);
 }
 
 void Area_ClearSquare(int x, int y)

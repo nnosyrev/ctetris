@@ -1,6 +1,8 @@
 #include "area.h"
 #include "window.h"
 
+Color FRAME_COLOR = { .r = 0, .g = 0, .b = 0, .alpha = 0xff };
+
 Area Area_Show(Window window, int x, int y, Color color)
 {
     SDL_FRect rect;
@@ -21,15 +23,26 @@ Area Area_Show(Window window, int x, int y, Color color)
 
 void Area_DrawSquare(Area area, int x, int y, Color color)
 {
-    SDL_FRect rect;
+    SDL_FRect outer;
 
-    rect.x = x * SQUARE_WIDTH + area.x;
-    rect.y = y * SQUARE_WIDTH + area.y;
-    rect.w = SQUARE_WIDTH;
-    rect.h = SQUARE_WIDTH;
+    outer.x = x * SQUARE_WIDTH + area.x;
+    outer.y = y * SQUARE_WIDTH + area.y;
+    outer.w = SQUARE_WIDTH;
+    outer.h = SQUARE_WIDTH;
+
+    SDL_SetRenderDrawColor(area.window.renderer, FRAME_COLOR.r, FRAME_COLOR.g, FRAME_COLOR.b, FRAME_COLOR.alpha);
+    SDL_RenderFillRect(area.window.renderer, &outer);
+
+    SDL_FRect inner;
+
+    inner.x = outer.x + FRAME_WIDTH;
+    inner.y = outer.y + FRAME_WIDTH;
+    inner.w = outer.w - FRAME_WIDTH * 2;
+    inner.h = outer.h - FRAME_WIDTH * 2;
 
     SDL_SetRenderDrawColor(area.window.renderer, color.r, color.g, color.b, color.alpha);
-    SDL_RenderFillRect(area.window.renderer, &rect);
+    SDL_RenderFillRect(area.window.renderer, &inner);
+
     SDL_RenderPresent(area.window.renderer);
 }
 

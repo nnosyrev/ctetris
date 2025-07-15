@@ -8,6 +8,7 @@
 #define SQUARE_WIDTH  30
 #define AREA_WIDTH 10
 #define AREA_HEIGHT 20
+#define FRAME_WIDTH 1
 
 typedef struct {
     Uint8 r;

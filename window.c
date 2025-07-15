@@ -14,6 +14,8 @@ Window_Window Window_Create(char *title, int width, int height)
         //return 1;
     }
 
+    SDL_RenderClear(window.renderer);
+
     return window;
 }
 

@@ -1,11 +1,12 @@
 #include "window.h"
-#include "area.c"
+#include "area.h"
 
 int main(int argc, char* argv[])
 {
-    Window_Create("Title", 800, 600);
+    Window_Window window;
+    window = Window_Create("Title", 800, 600);
 
-    Area_Show(10, 10);
+    Area_Show(window, 10, 10);
 
     bool done = false;
     while (!done) {
@@ -18,7 +19,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    Window_Destroy();
+    Window_Destroy(window);
 
     return 0;
 }

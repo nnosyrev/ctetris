@@ -1,13 +1,8 @@
-#include <SDL3/SDL_render.h>
-#include "window.c"
+#include "area.h"
 
-#define AREA_BLOCK_SIZE 40
-#define AREA_GRID_WIDTH 10
-#define AREA_GRID_HEIGHT 20
-
-void Area_Show(int x, int y)
+void Area_Show(Window_Window window, int x, int y)
 {
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(window.renderer);
 
     SDL_FRect rect;
 
@@ -16,9 +11,9 @@ void Area_Show(int x, int y)
     rect.w = 100;
     rect.h = 100;
 
-    SDL_SetRenderDrawColor(renderer, 0xfc, 0x0c, 0x0c, 0xff);
-    SDL_RenderFillRect(renderer, &rect);
-    SDL_RenderPresent(renderer);
+    SDL_SetRenderDrawColor(window.renderer, 0xfc, 0x0c, 0x0c, 0xff);
+    SDL_RenderFillRect(window.renderer, &rect);
+    SDL_RenderPresent(window.renderer);
 }
 
 void Area_DrawBlock(int x, int y, int color)

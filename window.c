@@ -1,31 +1,27 @@
-#include <SDL3/SDL_events.h>
-#include <SDL3/SDL_init.h>
-#include <SDL3/SDL_render.h>
-#include <SDL3/SDL_log.h>
+#include "window.h"
 
-SDL_Window *window;
-SDL_Renderer *renderer;
-
-typedef SDL_Event Window_Event;
-
-void Window_Create(char *title, int width, int height)
+Window_Window Window_Create(char *title, int width, int height)
 {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         //return 1;
     }
 
-    if (!SDL_CreateWindowAndRenderer(title, width, height, SDL_WINDOW_OPENGL, &window, &renderer)) {
+    Window_Window window;
+
+    if (!SDL_CreateWindowAndRenderer(title, width, height, SDL_WINDOW_OPENGL, &window.window, &window.renderer)) {
         SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
         //return 1;
     }
+
+    return window;
 }
 
-void Window_Destroy()
+void Window_Destroy(Window_Window window)
 {
     // Close and destroy the window
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(window.renderer);
+    SDL_DestroyWindow(window.window);
 
     // Clean up
     SDL_Quit();

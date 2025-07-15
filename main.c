@@ -3,8 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    Window_Window window;
-    window = Window_Create("Title", 800, 600);
+    Window_Window window = Window_Create("Title", 800, 600);
 
     Area_Show(window, 10, 10);
 

@@ -15,7 +15,7 @@ void Area_Show(Window_Window window, int x, int y)
     SDL_RenderPresent(window.renderer);
 }
 
-void Area_DrawBlock(Window_Window window, int x, int y, Area_Color color)
+void Area_DrawSquare(Window_Window window, int x, int y, Area_Color color)
 {
     SDL_FRect rect;
 
@@ -29,7 +29,7 @@ void Area_DrawBlock(Window_Window window, int x, int y, Area_Color color)
     SDL_RenderPresent(window.renderer);
 }
 
-void Area_ClearBlock(int x, int y)
+void Area_ClearSquare(int x, int y)
 {
 
 }

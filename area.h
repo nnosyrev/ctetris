@@ -18,8 +18,7 @@ typedef struct {
 
 void Area_Show(Window_Window window, int x, int y);
 
-void Area_DrawBlock(Window_Window window, int x, int y, Area_Color color);
-
-void Area_ClearBlock(int x, int y);
+void Area_DrawSquare(Window_Window window, int x, int y, Area_Color color);
+void Area_ClearSquare(int x, int y);
 
 #endif

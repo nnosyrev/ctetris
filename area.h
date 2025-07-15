@@ -14,18 +14,18 @@ typedef struct {
     Uint8 g;
     Uint8 b;
     Uint8 alpha;
-} Area_Color;
+} Color;
 
 typedef struct {
-    Window_Window window;
+    Window window;
     float x;
     float y;
-    Area_Color color;
-} Area_Area;
+    Color color;
+} Area;
 
-Area_Area Area_Show(Window_Window window, int x, int y, Area_Color color);
+Area Area_Show(Window window, int x, int y, Color color);
 
-void Area_DrawSquare(Area_Area area, int x, int y, Area_Color color);
+void Area_DrawSquare(Area area, int x, int y, Color color);
 void Area_ClearSquare(int x, int y);
 
 #endif

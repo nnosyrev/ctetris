@@ -1,7 +1,7 @@
 #include "area.h"
 #include "window.h"
 
-Area_Area Area_Show(Window_Window window, int x, int y, Area_Color color)
+Area Area_Show(Window window, int x, int y, Color color)
 {
     SDL_FRect rect;
 
@@ -14,12 +14,12 @@ Area_Area Area_Show(Window_Window window, int x, int y, Area_Color color)
     SDL_RenderFillRect(window.renderer, &rect);
     SDL_RenderPresent(window.renderer);
 
-    Area_Area area = { .window = window, .x = x, .y = y, .color = color };
+    Area area = { .window = window, .x = x, .y = y, .color = color };
 
     return area;
 }
 
-void Area_DrawSquare(Area_Area area, int x, int y, Area_Color color)
+void Area_DrawSquare(Area area, int x, int y, Color color)
 {
     SDL_FRect rect;
 

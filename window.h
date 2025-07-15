@@ -11,11 +11,11 @@ typedef SDL_Event Window_Event;
 typedef struct {
     SDL_Window *window;
     SDL_Renderer *renderer;
-} Window_Window;
+} Window;
 
-Window_Window Window_Create(char *title, int width, int height);
+Window Window_Create(char *title, int width, int height);
 
-void Window_Destroy(Window_Window window);
+void Window_Destroy(Window window);
 
 bool Window_PollEvent(Window_Event *event);
 

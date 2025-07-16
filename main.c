@@ -1,7 +1,7 @@
 #include "window.h"
 #include "area.h"
 
-Color GREEN_COLOR = { .r = 0, .g = 128, .b = 0, .alpha = 0xff };
+Color GREEN_COLOR = { .r = 0,   .g = 128, .b = 0,   .alpha = 0xff };
 Color WHITE_COLOR = { .r = 255, .g = 255, .b = 255, .alpha = 0xff };
 
 int main(int argc, char* argv[])
@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 
     Area_DrawSquare(area, 0, 0, GREEN_COLOR);
     Area_DrawSquare(area, 1, 1, GREEN_COLOR);
+    Area_DrawSquare(area, 1, 2, GREEN_COLOR);
 
     bool done = false;
     while (!done) {

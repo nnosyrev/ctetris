@@ -1,18 +1,21 @@
 #include "window.h"
 #include "area.h"
 
-Color GREEN_COLOR = { .r = 0,   .g = 128, .b = 0,   .alpha = 0xff };
-Color WHITE_COLOR = { .r = 255, .g = 255, .b = 255, .alpha = 0xff };
-
 int main(int argc, char* argv[])
 {
     Window window = Window_Create("Title", 800, 700);
 
-    Area area = Area_Show(window, 10, 10, WHITE_COLOR);
+    Area area = Area_Show(window, 10, 10, COLOR_WHITE);
 
-    Area_DrawSquare(area, 0, 0, GREEN_COLOR);
-    Area_DrawSquare(area, 1, 1, GREEN_COLOR);
-    Area_DrawSquare(area, 1, 2, GREEN_COLOR);
+    Area_DrawSquare(area, 0, 0, COLOR_GREEN);
+    Area_DrawSquare(area, 1, 1, COLOR_GREEN);
+    Area_DrawSquare(area, 1, 2, COLOR_RED);
+    Area_DrawSquare(area, 1, 3, COLOR_ORANGE);
+    Area_DrawSquare(area, 1, 4, COLOR_YELLOW);
+    Area_DrawSquare(area, 1, 5, COLOR_GREEN);
+    Area_DrawSquare(area, 1, 6, COLOR_LIGHTBLUE);
+    Area_DrawSquare(area, 1, 7, COLOR_BLUE);
+    Area_DrawSquare(area, 1, 8, COLOR_PURPLE);
 
     bool done = false;
     while (!done) {

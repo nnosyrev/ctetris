@@ -10,6 +10,17 @@
 #define AREA_HEIGHT 20
 #define FRAME_WIDTH 1
 
+#define FRAME_COLOR 0x000000
+
+#define COLOR_WHITE 0xFFFFFF
+#define COLOR_RED 0xFF0000
+#define COLOR_ORANGE 0xFFA500
+#define COLOR_YELLOW 0xFFFF00
+#define COLOR_GREEN 0x008000
+#define COLOR_LIGHTBLUE 0xADD8E6
+#define COLOR_BLUE 0x0000FF
+#define COLOR_PURPLE 0x800080
+
 typedef struct {
     Uint8 r;
     Uint8 g;
@@ -21,12 +32,15 @@ typedef struct {
     Window window;
     float x;
     float y;
-    Color color;
 } Area;
 
-Area Area_Show(Window window, int x, int y, Color color);
+Area Area_Show(Window window, int x, int y, int color);
 
-void Area_DrawSquare(Area area, int x, int y, Color color);
+void Area_DrawSquare(Area area, int x, int y, int color);
 void Area_ClearSquare(int x, int y);
+
+int Area_getRColor(int color);
+int Area_getGColor(int color);
+int Area_getBColor(int color);
 
 #endif

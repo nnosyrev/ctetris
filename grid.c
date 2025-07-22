@@ -1,10 +1,25 @@
+#include "area.h"
 #include "stdbool.h"
 #include "grid.h"
 
 int grid[GRID_WIDTH][GRID_HEIGHT] = { 0 };
 
-void Grid_Turn(int *shape)
+int SHAPES[3][4][4][4] = { SHAPE1, SHAPE2, SHAPE3 };
+
+void Grid_Turn(Shape *shape)
 {
+    shape->state = (shape->state + 1) % 4;
+}
+
+Shape Grid_CreateShape()
+{
+    Shape shape = { .x = 0, .y = 0, .color = COLOR_PURPLE, .state = 0 };
+
+    int shapeIndex = 1;
+
+    memcpy(&shape.shape, &SHAPES[shapeIndex], sizeof(SHAPES[shapeIndex]));
+
+    return shape;
 }
 
 void Grid_FixShapeToGrid(int *grid, Shape *shape)

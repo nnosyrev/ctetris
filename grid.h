@@ -1,5 +1,10 @@
+#ifndef _GRID_H_INCLUDED_
+#define _GRID_H_INCLUDED_
+
 #define GRID_WIDTH 10
 #define GRID_HEIGHT 20
+#define SHAPE_WIDTH 4
+#define SHAPE_HEIGHT 4
 
 #define SHAPE1 { \
     { \
@@ -82,11 +87,14 @@
     } \
 }
 
-//#define SHAPES { SHAPE1, SHAPE2, SHAPE3 }
-
 typedef struct {
     int x;
     int y;
     int shape[4][4][4];
-    int $current;
+    int state;
+    int color;
 } Shape;
+
+Shape Grid_CreateShape();
+
+#endif

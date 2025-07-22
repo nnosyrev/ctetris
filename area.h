@@ -4,6 +4,7 @@
 
 #include <SDL3/SDL_render.h>
 #include "window.h"
+#include "grid.h"
 
 #define SQUARE_WIDTH 30
 #define FRAME_WIDTH 1
@@ -33,5 +34,7 @@ void Area_ClearSquare(int x, int y);
 int Area_getRColor(int color);
 int Area_getGColor(int color);
 int Area_getBColor(int color);
+
+void Area_DrawShape(Area area, Shape shape);
 
 #endif

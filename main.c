@@ -1,5 +1,8 @@
 #include "window.h"
 #include "area.h"
+#include "grid.h"
+
+int SHAPES[3][4][4][4] = { SHAPE1, SHAPE2, SHAPE3 };
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +19,9 @@ int main(int argc, char* argv[])
     Area_DrawSquare(area, 1, 6, COLOR_LIGHTBLUE);
     Area_DrawSquare(area, 1, 7, COLOR_BLUE);
     Area_DrawSquare(area, 1, 8, COLOR_PURPLE);
+
+    //int shape[4][4][4];
+    //memcpy(&shape, &SHAPES[0], sizeof(SHAPES[0]));
 
     bool done = false;
     while (!done) {

@@ -1,5 +1,6 @@
 #include "area.h"
 #include "window.h"
+#include "grid.h"
 #include <SDL3/SDL_render.h>
 
 Area Area_Show(Window window, int x, int y, int color)
@@ -9,8 +10,8 @@ Area Area_Show(Window window, int x, int y, int color)
 
     rect.x = x;
     rect.y = y;
-    rect.w = AREA_WIDTH * SQUARE_WIDTH;
-    rect.h = AREA_HEIGHT * SQUARE_WIDTH;
+    rect.w = GRID_WIDTH * SQUARE_WIDTH;
+    rect.h = GRID_HEIGHT * SQUARE_WIDTH;
 
     SDL_SetRenderDrawColor(renderer, Area_getRColor(color), Area_getGColor(color), Area_getBColor(color), 0xff);
     SDL_RenderFillRect(renderer, &rect);

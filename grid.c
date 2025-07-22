@@ -1,15 +1,7 @@
 #include "stdbool.h"
-
-#define GRID_WIDTH 10
-#define GRID_HEIGHT 20
+#include "grid.h"
 
 int grid[GRID_WIDTH][GRID_HEIGHT] = { 0 };
-
-typedef struct {
-    int x;
-    int y;
-    int shape[];
-} Shape;
 
 int shape1[2][2] = {
     {1, 1},

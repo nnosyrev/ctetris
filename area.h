@@ -5,9 +5,7 @@
 #include <SDL3/SDL_render.h>
 #include "window.h"
 
-#define SQUARE_WIDTH  30
-#define AREA_WIDTH 10
-#define AREA_HEIGHT 20
+#define SQUARE_WIDTH 30
 #define FRAME_WIDTH 1
 
 #define FRAME_COLOR 0x000000
@@ -20,13 +18,6 @@
 #define COLOR_LIGHTBLUE 0xADD8E6
 #define COLOR_BLUE 0x0000FF
 #define COLOR_PURPLE 0x800080
-
-typedef struct {
-    Uint8 r;
-    Uint8 g;
-    Uint8 b;
-    Uint8 alpha;
-} Color;
 
 typedef struct {
     Window window;

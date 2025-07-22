@@ -8,18 +8,6 @@ int main(int argc, char* argv[])
 
     Area area = Area_Show(window, 10, 10, COLOR_WHITE);
 
-    //Area_DrawSquare(area, 0, 0, COLOR_GREEN);
-    //Area_DrawSquare(area, 1, 1, COLOR_GREEN);
-    //Area_DrawSquare(area, 1, 2, COLOR_RED);
-    //Area_DrawSquare(area, 1, 3, COLOR_ORANGE);
-    //Area_DrawSquare(area, 1, 4, COLOR_YELLOW);
-    //Area_DrawSquare(area, 1, 5, COLOR_GREEN);
-    //Area_DrawSquare(area, 1, 6, COLOR_LIGHTBLUE);
-    //Area_DrawSquare(area, 1, 7, COLOR_BLUE);
-    //Area_DrawSquare(area, 1, 8, COLOR_PURPLE);
-
-    //int shape[4][4][4];
-    //memcpy(&shape, &SHAPES[0], sizeof(SHAPES[0]));
     Shape shape = Grid_CreateShape();
 
     Area_DrawShape(area, shape);

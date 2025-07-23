@@ -36,6 +36,10 @@ int main(int argc, char* argv[])
                     Area_ClearShape(&area, &shape);
                     Grid_Left(&shape);
                     Area_DrawShape(&area, &shape);
+                } else if (event.key.scancode == SDL_SCANCODE_UP) {
+                    Area_ClearShape(&area, &shape);
+                    Grid_Turn(&shape);
+                    Area_DrawShape(&area, &shape);
                 }
             }
         }

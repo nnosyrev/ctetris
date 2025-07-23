@@ -30,7 +30,7 @@ Shape Grid_CreateShape()
 {
     Shape shape = { .x = 0, .y = 0, .color = COLOR_PURPLE, .state = 0 };
 
-    int shapeIndex = 2;
+    int shapeIndex = 1;
 
     memcpy(&shape.shape, &SHAPES[shapeIndex], sizeof(SHAPES[shapeIndex]));
 

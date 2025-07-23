@@ -3,10 +3,10 @@
 #include "grid.h"
 #include <SDL3/SDL_render.h>
 
-Area Area_Show(Window window, int x, int y, int color)
+Area Area_Show(Window *window, int x, int y, int color)
 {
     SDL_FRect rect;
-    SDL_Renderer *renderer = window.renderer;
+    SDL_Renderer *renderer = window->renderer;
 
     rect.x = x;
     rect.y = y;
@@ -17,7 +17,7 @@ Area Area_Show(Window window, int x, int y, int color)
     SDL_RenderFillRect(renderer, &rect);
     SDL_RenderPresent(renderer);
 
-    Area area = { .window = window, .x = x, .y = y };
+    Area area = { .window = *window, .x = x, .y = y };
 
     return area;
 }

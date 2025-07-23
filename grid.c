@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "area.h"
 #include "stdbool.h"
 #include "grid.h"

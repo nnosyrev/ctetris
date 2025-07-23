@@ -26,7 +26,7 @@ typedef struct {
     float y;
 } Area;
 
-Area Area_Show(Window window, int x, int y, int color);
+Area Area_Show(Window *window, int x, int y, int color);
 
 void Area_DrawSquare(Area *area, int x, int y, int color);
 void Area_ClearSquare(int x, int y);

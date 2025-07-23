@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
     Window window = Window_Create("Title", 800, 700);
 
-    Area area = Area_Show(window, 10, 10, COLOR_WHITE);
+    Area area = Area_Show(&window, 10, 10, COLOR_WHITE);
 
     Shape shape = Grid_CreateShape();
 

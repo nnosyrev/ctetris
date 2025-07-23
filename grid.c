@@ -11,6 +11,11 @@ void Grid_Turn(Shape *shape)
     shape->state = (shape->state + 1) % 4;
 }
 
+void Grid_Down(Shape *shape)
+{
+    shape->y = shape->y + 1;
+}
+
 Shape Grid_CreateShape()
 {
     Shape shape = { .x = 0, .y = 0, .color = COLOR_PURPLE, .state = 0 };

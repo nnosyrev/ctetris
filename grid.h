@@ -81,4 +81,6 @@ typedef struct {
 
 Shape Grid_CreateShape();
 
+void Grid_Down(Shape *shape);
+
 #endif

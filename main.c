@@ -18,8 +18,16 @@ int main(int argc, char* argv[])
         Window_Event event;
 
         while (Window_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT || event.type == SDL_EVENT_KEY_DOWN) {
+            if (event.type == SDL_EVENT_QUIT) {
                 done = true;
+            } else if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.scancode == SDL_SCANCODE_Q) {
+                    done = true;
+                } else if (event.key.scancode == SDL_SCANCODE_DOWN) {
+                    Area_ClearShape(&area, &shape);
+                    Grid_Down(&shape);
+                    Area_DrawShape(&area, &shape);
+                }
             }
         }
     }

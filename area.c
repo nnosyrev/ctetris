@@ -17,9 +17,35 @@ Area Area_Show(Window *window, int x, int y, int color)
     SDL_RenderFillRect(renderer, &rect);
     SDL_RenderPresent(renderer);
 
-    Area area = { .window = *window, .x = x, .y = y };
+    Area area = { .window = *window, .x = x, .y = y, .color = color };
 
     return area;
+}
+
+void Area_DrawShape(Area *area, Shape *shape)
+{
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1) {
+                Area_DrawSquare(area, shape->x + x, shape->y + y, shape->color);
+            }
+        }
+    }
+
+    SDL_RenderPresent(area->window.renderer);
+}
+
+void Area_ClearShape(Area *area, Shape *shape)
+{
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1) {
+                Area_ClearSquare(area, shape->x + x, shape->y + y);
+            }
+        }
+    }
+
+    SDL_RenderPresent(area->window.renderer);
 }
 
 void Area_DrawSquare(Area *area, int x, int y, int color)
@@ -46,24 +72,22 @@ void Area_DrawSquare(Area *area, int x, int y, int color)
 
     SDL_SetRenderDrawColor(renderer, Area_getRColor(color), Area_getGColor(color), Area_getBColor(color), 0xff);
     SDL_RenderFillRect(renderer, &inner);
-
-    SDL_RenderPresent(renderer);
 }
 
-void Area_ClearSquare(int x, int y)
+void Area_ClearSquare(Area *area, int x, int y)
 {
+    SDL_FRect outer;
+    SDL_Renderer *renderer = area->window.renderer;
 
-}
+    outer.x = x * SQUARE_WIDTH + area->x;
+    outer.y = y * SQUARE_WIDTH + area->y;
+    outer.w = SQUARE_WIDTH;
+    outer.h = SQUARE_WIDTH;
 
-void Area_DrawShape(Area *area, Shape *shape)
-{
-    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
-        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
-            if (shape->shape[shape->state][x][y] == 1) {
-                Area_DrawSquare(area, x, y, shape->color);
-            }
-        }
-    }
+    SDL_SetRenderDrawColor(
+        renderer, Area_getRColor(area->color), Area_getGColor(area->color), Area_getBColor(area->color), 0xff
+    );
+    SDL_RenderFillRect(renderer, &outer);
 }
 
 int Area_getRColor(int color)
@@ -80,16 +104,3 @@ int Area_getBColor(int color)
 {
     return color & 0xFF;
 }
-
-/*
-void Area_DrawShape(int x, int y, int color)
-{
-
-}
-
-void Area_ClearShape(int x, int y)
-{
-
-}
-*/
-

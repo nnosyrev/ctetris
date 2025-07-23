@@ -24,17 +24,19 @@ typedef struct {
     Window window;
     float x;
     float y;
+    int color;
 } Area;
 
 Area Area_Show(Window *window, int x, int y, int color);
 
+void Area_DrawShape(Area *area, Shape *shape);
+void Area_ClearShape(Area *area, Shape *shape);
+
 void Area_DrawSquare(Area *area, int x, int y, int color);
-void Area_ClearSquare(int x, int y);
+void Area_ClearSquare(Area *area, int x, int y);
 
 int Area_getRColor(int color);
 int Area_getGColor(int color);
 int Area_getBColor(int color);
-
-void Area_DrawShape(Area *area, Shape *shape);
 
 #endif

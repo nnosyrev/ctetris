@@ -28,13 +28,13 @@ typedef struct {
 
 Area Area_Show(Window window, int x, int y, int color);
 
-void Area_DrawSquare(Area area, int x, int y, int color);
+void Area_DrawSquare(Area *area, int x, int y, int color);
 void Area_ClearSquare(int x, int y);
 
 int Area_getRColor(int color);
 int Area_getGColor(int color);
 int Area_getBColor(int color);
 
-void Area_DrawShape(Area area, Shape shape);
+void Area_DrawShape(Area *area, Shape *shape);
 
 #endif

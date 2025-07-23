@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "window.h"
 #include "area.h"
 #include "grid.h"
@@ -10,7 +11,7 @@ int main(int argc, char* argv[])
 
     Shape shape = Grid_CreateShape();
 
-    Area_DrawShape(area, shape);
+    Area_DrawShape(&area, &shape);
 
     bool done = false;
     while (!done) {
@@ -25,5 +26,5 @@ int main(int argc, char* argv[])
 
     Window_Destroy(window);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

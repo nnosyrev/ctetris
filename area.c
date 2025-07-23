@@ -22,13 +22,13 @@ Area Area_Show(Window window, int x, int y, int color)
     return area;
 }
 
-void Area_DrawSquare(Area area, int x, int y, int color)
+void Area_DrawSquare(Area *area, int x, int y, int color)
 {
     SDL_FRect outer;
-    SDL_Renderer *renderer = area.window.renderer;
+    SDL_Renderer *renderer = area->window.renderer;
 
-    outer.x = x * SQUARE_WIDTH + area.x;
-    outer.y = y * SQUARE_WIDTH + area.y;
+    outer.x = x * SQUARE_WIDTH + area->x;
+    outer.y = y * SQUARE_WIDTH + area->y;
     outer.w = SQUARE_WIDTH;
     outer.h = SQUARE_WIDTH;
 
@@ -55,12 +55,12 @@ void Area_ClearSquare(int x, int y)
 
 }
 
-void Area_DrawShape(Area area, Shape shape)
+void Area_DrawShape(Area *area, Shape *shape)
 {
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
-            if (shape.shape[shape.state][x][y] == 1) {
-                Area_DrawSquare(area, x, y, shape.color);
+            if (shape->shape[shape->state][x][y] == 1) {
+                Area_DrawSquare(area, x, y, shape->color);
             }
         }
     }

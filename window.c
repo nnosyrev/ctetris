@@ -21,11 +21,8 @@ Window Window_Create(char *title, int width, int height)
 
 void Window_Destroy(Window window)
 {
-    // Close and destroy the window
     SDL_DestroyRenderer(window.renderer);
     SDL_DestroyWindow(window.window);
-
-    // Clean up
     SDL_Quit();
 }
 

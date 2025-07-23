@@ -60,9 +60,7 @@ void Area_DrawShape(Area area, Shape shape)
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape.shape[shape.state][x][y] == 1) {
-                // TODO: ???
-                // Надо менять местами x и y т.к. в определении массивов сначала идёт y, а потом x.
-                Area_DrawSquare(area, y, x, shape.color);
+                Area_DrawSquare(area, x, y, shape.color);
             }
         }
     }

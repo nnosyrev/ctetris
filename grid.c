@@ -16,6 +16,16 @@ void Grid_Down(Shape *shape)
     shape->y = shape->y + 1;
 }
 
+void Grid_Right(Shape *shape)
+{
+    shape->x = shape->x + 1;
+}
+
+void Grid_Left(Shape *shape)
+{
+    shape->x = shape->x - 1;
+}
+
 Shape Grid_CreateShape()
 {
     Shape shape = { .x = 0, .y = 0, .color = COLOR_PURPLE, .state = 0 };

@@ -1,3 +1,4 @@
+#include <SDL3/SDL_scancode.h>
 #include <stdlib.h>
 #include "window.h"
 #include "area.h"
@@ -26,6 +27,14 @@ int main(int argc, char* argv[])
                 } else if (event.key.scancode == SDL_SCANCODE_DOWN) {
                     Area_ClearShape(&area, &shape);
                     Grid_Down(&shape);
+                    Area_DrawShape(&area, &shape);
+                } else if (event.key.scancode == SDL_SCANCODE_RIGHT) {
+                    Area_ClearShape(&area, &shape);
+                    Grid_Right(&shape);
+                    Area_DrawShape(&area, &shape);
+                } else if (event.key.scancode == SDL_SCANCODE_LEFT) {
+                    Area_ClearShape(&area, &shape);
+                    Grid_Left(&shape);
                     Area_DrawShape(&area, &shape);
                 }
             }

@@ -82,5 +82,7 @@ typedef struct {
 Shape Grid_CreateShape();
 
 void Grid_Down(Shape *shape);
+void Grid_Right(Shape *shape);
+void Grid_Left(Shape *shape);
 
 #endif

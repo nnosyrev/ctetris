@@ -27,7 +27,7 @@ void Area_DrawShape(Area *area, Shape *shape)
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[shape->state][x][y] == 1) {
-                Area_DrawSquare(area, shape->x + x, shape->y + y, shape->color);
+                Area_drawSquare(area, shape->x + x, shape->y + y, shape->color);
             }
         }
     }
@@ -40,7 +40,7 @@ void Area_ClearShape(Area *area, Shape *shape)
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[shape->state][x][y] == 1) {
-                Area_ClearSquare(area, shape->x + x, shape->y + y);
+                Area_clearSquare(area, shape->x + x, shape->y + y);
             }
         }
     }
@@ -48,7 +48,7 @@ void Area_ClearShape(Area *area, Shape *shape)
     SDL_RenderPresent(area->window.renderer);
 }
 
-void Area_DrawSquare(Area *area, int x, int y, int color)
+void Area_drawSquare(Area *area, int x, int y, int color)
 {
     SDL_FRect outer;
     SDL_Renderer *renderer = area->window.renderer;
@@ -74,7 +74,7 @@ void Area_DrawSquare(Area *area, int x, int y, int color)
     SDL_RenderFillRect(renderer, &inner);
 }
 
-void Area_ClearSquare(Area *area, int x, int y)
+void Area_clearSquare(Area *area, int x, int y)
 {
     SDL_FRect outer;
     SDL_Renderer *renderer = area->window.renderer;

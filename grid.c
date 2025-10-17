@@ -1,10 +1,13 @@
 #include "area.h"
 #include "stdbool.h"
 #include "grid.h"
+#include <stdlib.h>
 
 int grid[GRID_WIDTH][GRID_HEIGHT] = { 0 };
 
-int SHAPES[3][4][4][4] = { SHAPE1, SHAPE2, SHAPE3 };
+int SHAPES[6][4][4][4] = { SHAPE1, SHAPE2, SHAPE3, SHAPE4, SHAPE5, SHAPE6 };
+
+int COLORS[] = { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_LIGHTBLUE, COLOR_BLUE, COLOR_PURPLE };
 
 void Grid_Turn(Shape *shape)
 {
@@ -54,10 +57,10 @@ Shape Grid_CreateShape()
         .y = 0,
         .oldState = 0,
         .state = 0,
-        .color = COLOR_PURPLE
+        .color = COLORS[rand() % 7]
     };
 
-    int shapeIndex = 1;
+    int shapeIndex = rand() % 6;
 
     memcpy(&shape.shape, &SHAPES[shapeIndex], sizeof(SHAPES[shapeIndex]));
 

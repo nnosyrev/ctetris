@@ -64,8 +64,20 @@ Shape Grid_CreateShape()
     return shape;
 }
 
-void Grid_FixShapeToGrid(int *grid, Shape *shape)
+void Grid_FixShapeToGrid(Shape *shape)
 {
+    int resx, resy = 0;
+
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1) {
+                resx = shape->x + x;
+                resy = shape->y + y;
+
+                grid[resx][resy] = shape->color;
+            }
+        }
+    }
 }
 
 bool Grid_CanTurn(Shape *shape)

@@ -79,6 +79,11 @@ int main(int argc, char* argv[])
             Area_DrawShape(&area, &shape);
 
             Grid_MarkAsUpdated(&shape);
+
+            if (!Grid_CanMoveDown(&shape)) {
+                Grid_FixShapeToGrid(&shape);
+                shape = Grid_CreateShape();
+            }
         }
     }
 

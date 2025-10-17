@@ -68,12 +68,78 @@ void Grid_FixShapeToGrid(int *grid, Shape *shape)
 {
 }
 
-bool Grid_CanTurn(int *grid, Shape *shape)
+bool Grid_CanTurn(Shape *shape)
 {
-    return false;
+    int resx, resy = 0;
+
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[(shape->state + 1) % 4][x][y] == 1) {
+                resx = shape->x + x;
+                resy = shape->y + y;
+                if (resx < 0 || resx >= GRID_WIDTH || resy >= GRID_HEIGHT || grid[resx][resy] != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
-bool Grid_CanMoveRight(int *grid, Shape *shape)
+bool Grid_CanMoveRight(Shape *shape)
 {
-    return false;
+    int resx, resy = 0;
+
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1) {
+                resx = shape->x + x + 1;
+                resy = shape->y + y;
+                if (resx >= GRID_WIDTH || resy >= GRID_HEIGHT || grid[resx][resy] != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Grid_CanMoveLeft(Shape *shape)
+{
+    int resx, resy = 0;
+
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1) {
+                resx = shape->x + x - 1;
+                resy = shape->y + y;
+                if (resx < 0 || resy < 0 || grid[resx][resy] != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Grid_CanMoveDown(Shape *shape)
+{
+    int resx, resy = 0;
+
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1) {
+                resx = shape->x + x;
+                resy = shape->y + y + 1;
+                if (resx >= GRID_WIDTH || resy >= GRID_HEIGHT || grid[resx][resy] != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }

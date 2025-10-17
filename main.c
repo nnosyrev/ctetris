@@ -14,9 +14,11 @@ void* ticker(void *arg)
 {
     while (1) {
         sleep(1);
-        pthread_mutex_lock(&lock);
-        Grid_Down(&shape);
-        pthread_mutex_unlock(&lock);
+        if (Grid_CanMoveDown(&shape)) {
+            pthread_mutex_lock(&lock);
+            Grid_Down(&shape);
+            pthread_mutex_unlock(&lock);
+        }
     }
     return NULL;
 }
@@ -45,25 +47,32 @@ int main(int argc, char* argv[])
                 if (event.key.scancode == SDL_SCANCODE_Q) {
                     done = true;
                 } else if (event.key.scancode == SDL_SCANCODE_DOWN) {
-                    pthread_mutex_lock(&lock);
-                    Grid_Down(&shape);
-                    pthread_mutex_unlock(&lock);
+                    if (Grid_CanMoveDown(&shape)) {
+                        pthread_mutex_lock(&lock);
+                        Grid_Down(&shape);
+                        pthread_mutex_unlock(&lock);
+                    }
                 } else if (event.key.scancode == SDL_SCANCODE_RIGHT) {
-                    pthread_mutex_lock(&lock);
-                    Grid_Right(&shape);
-                    pthread_mutex_unlock(&lock);
+                    if (Grid_CanMoveRight(&shape)) {
+                        pthread_mutex_lock(&lock);
+                        Grid_Right(&shape);
+                        pthread_mutex_unlock(&lock);
+                    }
                 } else if (event.key.scancode == SDL_SCANCODE_LEFT) {
-                    pthread_mutex_lock(&lock);
-                    Grid_Left(&shape);
-                    pthread_mutex_unlock(&lock);
+                    if (Grid_CanMoveLeft(&shape)) {
+                        pthread_mutex_lock(&lock);
+                        Grid_Left(&shape);
+                        pthread_mutex_unlock(&lock);
+                    }
                 } else if (event.key.scancode == SDL_SCANCODE_UP) {
-                    pthread_mutex_lock(&lock);
-                    Grid_Turn(&shape);
-                    pthread_mutex_unlock(&lock);
+                    if (Grid_CanTurn(&shape)) {
+                        pthread_mutex_lock(&lock);
+                        Grid_Turn(&shape);
+                        pthread_mutex_unlock(&lock);
+                    }
                 }
             }
         }
-        //SDL_Log("Внезапно!");
 
         if (Grid_IsShapeChanged(&shape)) {
             Area_ClearOldShape(&area, &shape);

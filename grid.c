@@ -69,15 +69,10 @@ Shape Grid_CreateShape()
 
 void Grid_FixShapeToGrid(Shape *shape)
 {
-    int resx, resy = 0;
-
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[shape->state][x][y] == 1) {
-                resx = shape->x + x;
-                resy = shape->y + y;
-
-                grid[resx][resy] = shape->color;
+                grid[shape->x + x][shape->y + y] = shape->color;
             }
         }
     }

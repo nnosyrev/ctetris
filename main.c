@@ -23,9 +23,6 @@ void* ticker(void *arg)
 
 int main(int argc, char* argv[])
 {
-    pthread_mutex_init(&lock, NULL);
-    pthread_create(&thread, NULL, &ticker, NULL);
-
     Window window = Window_Create("Title", 800, 700);
 
     Area area = Area_Show(&window, 10, 10, COLOR_WHITE);
@@ -33,6 +30,9 @@ int main(int argc, char* argv[])
     shape = Grid_CreateShape();
 
     Area_DrawShape(&area, &shape);
+
+    pthread_mutex_init(&lock, NULL);
+    pthread_create(&thread, NULL, &ticker, NULL);
 
     bool done = false;
     while (!done) {

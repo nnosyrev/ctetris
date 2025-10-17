@@ -72,10 +72,13 @@
 }
 
 typedef struct {
+    int oldx;
     int x;
+    int oldy;
     int y;
-    int shape[4][4][4];
+    int oldState;
     int state;
+    int shape[4][4][4];
     int color;
 } Shape;
 
@@ -85,5 +88,7 @@ void Grid_Turn(Shape *shape);
 void Grid_Down(Shape *shape);
 void Grid_Right(Shape *shape);
 void Grid_Left(Shape *shape);
+bool Grid_IsShapeChanged(Shape *shape);
+void Grid_MarkAsUpdated(Shape *shape);
 
 #endif

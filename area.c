@@ -35,12 +35,12 @@ void Area_DrawShape(Area *area, Shape *shape)
     SDL_RenderPresent(area->window.renderer);
 }
 
-void Area_ClearShape(Area *area, Shape *shape)
+void Area_ClearOldShape(Area *area, Shape *shape)
 {
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
-            if (shape->shape[shape->state][x][y] == 1) {
-                Area_clearSquare(area, shape->x + x, shape->y + y);
+            if (shape->shape[shape->oldState][x][y] == 1) {
+                Area_clearSquare(area, shape->oldx + x, shape->oldy + y);
             }
         }
     }

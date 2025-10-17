@@ -30,7 +30,7 @@ typedef struct {
 Area Area_Show(Window *window, int x, int y, int color);
 
 void Area_DrawShape(Area *area, Shape *shape);
-void Area_ClearShape(Area *area, Shape *shape);
+void Area_ClearOldShape(Area *area, Shape *shape);
 
 void Area_drawSquare(Area *area, int x, int y, int color);
 void Area_clearSquare(Area *area, int x, int y);

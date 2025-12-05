@@ -68,15 +68,13 @@ void Area_DropPart(Area *area, Section *section)
         }
     }
 
-    int color;
-
     for (int8_t y = section->bottom; y >= 0; y--) {
         for (int8_t x = 0; x < GRID_WIDTH; x++) {
-            color = grid[x][y];
-            if (color == 0) {
-                color = COLOR_WHITE;
+            if (grid[x][y] == 0) {
+                Area_clearSquare(area, x, y);
+            } else {
+                Area_drawSquare(area, x, y, grid[x][y]);
             }
-            Area_drawSquare(area, x, y, color);
         }
     }
 

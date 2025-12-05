@@ -153,3 +153,66 @@ bool Grid_CanMoveDown(Shape *shape)
 
     return true;
 }
+
+bool Grid_CheckFullLines()
+{
+    int count;
+    for (int8_t y = GRID_HEIGHT - 1; y >= 0; y--) {
+        count = 0;
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            if (grid[x][y] != 0) {
+                count++;
+            }
+        }
+        if (count == GRID_WIDTH) {
+            return true;
+       }
+    }
+
+    return false;
+}
+
+void Grid_IdentifySections(Section sections[MAX_SECTIONS])
+{
+    Section section = { -1, -1 };
+
+    int i = 0;
+
+    int count;
+    for (int8_t y = GRID_HEIGHT - 1; y >= 0; y--) {
+        count = 0;
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            if (grid[x][y] != 0) {
+                count++;
+            }
+        }
+
+        if (count == GRID_WIDTH) {
+            if (section.bottom == -1) {
+                section.bottom = y;
+                section.top = y;
+            } else {
+                section.top = y;
+            }
+        } else {
+            if (section.top != -1) {
+                sections[i] = section;
+                i++;
+
+                section.top = -1;
+                section.bottom = -1;
+            }
+        }
+    }
+}
+
+void Grid_DropPart(Section *section)
+{
+    int height = section->bottom - section->top + 1;
+
+    for (int8_t y = section->top - 1; y >= 0; y--) {
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            grid[x][y + height] = grid[x][y];
+        }
+    }
+}

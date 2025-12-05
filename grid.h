@@ -3,6 +3,7 @@
 
 #define GRID_WIDTH 10
 #define GRID_HEIGHT 20
+#define MAX_SECTIONS 2
 #define SHAPE_WIDTH 4
 #define SHAPE_HEIGHT 4
 
@@ -178,6 +179,11 @@ typedef struct {
     int color;
 } Shape;
 
+typedef struct {
+    int bottom;
+    int top;
+} Section;
+
 Shape Grid_CreateShape();
 
 void Grid_Turn(Shape *shape);
@@ -191,5 +197,8 @@ bool Grid_CanMoveLeft(Shape *shape);
 bool Grid_CanMoveDown(Shape *shape);
 bool Grid_CanTurn(Shape *shape);
 void Grid_FixShapeToGrid(Shape *shape);
+bool Grid_CheckFullLines();
+void Grid_IdentifySections(Section sections[2]);
+void Grid_DropPart(Section *section);
 
 #endif

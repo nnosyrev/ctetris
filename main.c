@@ -6,6 +6,7 @@
 #include "area.h"
 #include "grid.h"
 
+Section sections[MAX_SECTIONS];
 Shape shape;
 pthread_t thread;
 pthread_mutex_t lock;
@@ -82,6 +83,16 @@ int main(int argc, char* argv[])
 
             if (!Grid_CanMoveDown(&shape)) {
                 Grid_FixShapeToGrid(&shape);
+
+                if (Grid_CheckFullLines()) {
+                    Grid_IdentifySections(sections);
+                    for (int8_t i = 0; i < MAX_SECTIONS; i++) {
+                        Area_ClearSection(&area, &sections[i]);
+                        Grid_DropPart(&sections[i]);
+                        Area_DropPart(&area, &sections[i]);
+                    }
+                }
+
                 shape = Grid_CreateShape();
             }
         }

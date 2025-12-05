@@ -3,6 +3,8 @@
 #include "grid.h"
 #include <SDL3/SDL_render.h>
 
+extern int grid[GRID_WIDTH][GRID_HEIGHT];
+
 Area Area_Show(Window *window, int x, int y, int color)
 {
     SDL_FRect rect;
@@ -42,6 +44,39 @@ void Area_ClearOldShape(Area *area, Shape *shape)
             if (shape->shape[shape->oldState][x][y] == 1) {
                 Area_clearSquare(area, shape->oldx + x, shape->oldy + y);
             }
+        }
+    }
+
+    SDL_RenderPresent(area->window.renderer);
+}
+
+void Area_ClearSection(Area *area, Section *section)
+{
+    for (int8_t y = section->bottom; y <= section->top; y--) {
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            Area_clearSquare(area, x, y);
+        }
+    }
+    SDL_RenderPresent(area->window.renderer);
+}
+
+void Area_DropPart(Area *area, Section *section)
+{
+    for (int8_t y = section->bottom; y >= 0; y--) {
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            Area_clearSquare(area, x, y);
+        }
+    }
+
+    int color;
+
+    for (int8_t y = section->bottom; y >= 0; y--) {
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            color = grid[x][y];
+            if (color == 0) {
+                color = COLOR_WHITE;
+            }
+            Area_drawSquare(area, x, y, color);
         }
     }
 

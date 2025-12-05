@@ -34,6 +34,8 @@ void Area_ClearOldShape(Area *area, Shape *shape);
 
 void Area_drawSquare(Area *area, int x, int y, int color);
 void Area_clearSquare(Area *area, int x, int y);
+void Area_ClearSection(Area *area, Section *section);
+void Area_DropPart(Area *area, Section *section);
 
 int Area_getRColor(int color);
 int Area_getGColor(int color);

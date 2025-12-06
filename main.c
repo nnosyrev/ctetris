@@ -1,28 +1,13 @@
-#include <SDL3/SDL_scancode.h>
+#include <SDL3/SDL_timer.h>
 #include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
 #include "window.h"
 #include "area.h"
 #include "grid.h"
 
 Section sections[MAX_SECTIONS];
 Shape shape;
-pthread_t thread;
-pthread_mutex_t lock;
 
-void* ticker(void *arg)
-{
-    while (1) {
-        sleep(1);
-        if (Grid_CanMoveDown(&shape)) {
-            pthread_mutex_lock(&lock);
-            Grid_Down(&shape);
-            pthread_mutex_unlock(&lock);
-        }
-    }
-    return NULL;
-}
+unsigned int lastTime = 0, currentTime;
 
 int main(int argc, char* argv[])
 {
@@ -33,9 +18,6 @@ int main(int argc, char* argv[])
     shape = Grid_CreateShape();
 
     Area_DrawShape(&area, &shape);
-
-    pthread_mutex_init(&lock, NULL);
-    pthread_create(&thread, NULL, &ticker, NULL);
 
     bool done = false;
     while (!done) {
@@ -49,30 +31,31 @@ int main(int argc, char* argv[])
                     done = true;
                 } else if (event.key.scancode == SDL_SCANCODE_DOWN) {
                     if (Grid_CanMoveDown(&shape)) {
-                        pthread_mutex_lock(&lock);
                         Grid_Down(&shape);
-                        pthread_mutex_unlock(&lock);
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_RIGHT) {
                     if (Grid_CanMoveRight(&shape)) {
-                        pthread_mutex_lock(&lock);
                         Grid_Right(&shape);
-                        pthread_mutex_unlock(&lock);
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_LEFT) {
                     if (Grid_CanMoveLeft(&shape)) {
-                        pthread_mutex_lock(&lock);
                         Grid_Left(&shape);
-                        pthread_mutex_unlock(&lock);
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_UP) {
                     if (Grid_CanTurn(&shape)) {
-                        pthread_mutex_lock(&lock);
                         Grid_Turn(&shape);
-                        pthread_mutex_unlock(&lock);
                     }
                 }
             }
+        }
+
+        currentTime = SDL_GetTicks();
+        if (currentTime > lastTime + 1000) {
+            if (Grid_CanMoveDown(&shape)) {
+                Grid_Down(&shape);
+            }
+
+            lastTime = currentTime;
         }
 
         if (Grid_IsShapeChanged(&shape)) {
@@ -99,10 +82,6 @@ int main(int argc, char* argv[])
     }
 
     Window_Destroy(window);
-
-    pthread_mutex_destroy(&lock);
-    pthread_cancel(thread);
-    pthread_join(thread, NULL);
 
     return EXIT_SUCCESS;
 }

@@ -7,6 +7,9 @@ int grid[GRID_WIDTH][GRID_HEIGHT] = { 0 };
 
 int SHAPES[7][4][4][4] = { SHAPE1, SHAPE2, SHAPE3, SHAPE4, SHAPE5, SHAPE6, SHAPE7 };
 
+int startY[7] = { -1, -2, -2, -2, -1, -1, -2 };
+int startX[7] = { 4, 3, 3, 3, 3, 3, 3 };
+
 int COLORS[] = { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_LIGHTBLUE, COLOR_BLUE, COLOR_PURPLE };
 
 void Grid_Turn(Shape *shape)
@@ -50,17 +53,17 @@ void Grid_MarkAsUpdated(Shape *shape)
 
 Shape Grid_CreateShape()
 {
+    int shapeIndex = rand() % 7;
+
     Shape shape = {
-        .oldx = 2,
-        .x = 2,
-        .oldy = -3,
-        .y = -3,
+        .oldx = startX[shapeIndex],
+        .x = startX[shapeIndex],
+        .oldy = startY[shapeIndex],
+        .y = startY[shapeIndex],
         .oldState = 0,
         .state = 0,
         .color = COLORS[rand() % 7]
     };
-
-    int shapeIndex = rand() % 7;
 
     memcpy(&shape.shape, &SHAPES[shapeIndex], sizeof(SHAPES[shapeIndex]));
 

@@ -83,6 +83,10 @@ void Area_DropPart(Area *area, Section *section)
 
 void Area_drawSquare(Area *area, int x, int y, int color)
 {
+    if (y < 0) {
+        return;
+    }
+
     SDL_FRect outer;
     SDL_Renderer *renderer = area->window.renderer;
 
@@ -109,6 +113,10 @@ void Area_drawSquare(Area *area, int x, int y, int color)
 
 void Area_clearSquare(Area *area, int x, int y)
 {
+    if (y < 0) {
+        return;
+    }
+
     SDL_FRect outer;
     SDL_Renderer *renderer = area->window.renderer;
 

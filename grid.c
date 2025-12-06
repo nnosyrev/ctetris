@@ -51,10 +51,10 @@ void Grid_MarkAsUpdated(Shape *shape)
 Shape Grid_CreateShape()
 {
     Shape shape = {
-        .oldx = 0,
-        .x = 0,
-        .oldy = 0,
-        .y = 0,
+        .oldx = 2,
+        .x = 2,
+        .oldy = -3,
+        .y = -3,
         .oldState = 0,
         .state = 0,
         .color = COLORS[rand() % 7]
@@ -87,7 +87,7 @@ bool Grid_CanTurn(Shape *shape)
             if (shape->shape[(shape->state + 1) % 4][x][y] == 1) {
                 resx = shape->x + x;
                 resy = shape->y + y;
-                if (resx < 0 || resx >= GRID_WIDTH || resy >= GRID_HEIGHT || grid[resx][resy] != 0) {
+                if (resx < 0 || resx >= GRID_WIDTH || resy >= GRID_HEIGHT || (resy >= 0 && grid[resx][resy] != 0)) {
                     return false;
                 }
             }
@@ -106,7 +106,7 @@ bool Grid_CanMoveRight(Shape *shape)
             if (shape->shape[shape->state][x][y] == 1) {
                 resx = shape->x + x + 1;
                 resy = shape->y + y;
-                if (resx >= GRID_WIDTH || resy >= GRID_HEIGHT || grid[resx][resy] != 0) {
+                if (resx >= GRID_WIDTH || (resy >= 0 && grid[resx][resy] != 0)) {
                     return false;
                 }
             }
@@ -125,7 +125,7 @@ bool Grid_CanMoveLeft(Shape *shape)
             if (shape->shape[shape->state][x][y] == 1) {
                 resx = shape->x + x - 1;
                 resy = shape->y + y;
-                if (resx < 0 || resy < 0 || grid[resx][resy] != 0) {
+                if (resx < 0 || (resy >= 0 && grid[resx][resy] != 0)) {
                     return false;
                 }
             }
@@ -144,7 +144,7 @@ bool Grid_CanMoveDown(Shape *shape)
             if (shape->shape[shape->state][x][y] == 1) {
                 resx = shape->x + x;
                 resy = shape->y + y + 1;
-                if (resx >= GRID_WIDTH || resy >= GRID_HEIGHT || grid[resx][resy] != 0) {
+                if (resy >= GRID_HEIGHT || (resy >= 0 && grid[resx][resy] != 0)) {
                     return false;
                 }
             }
@@ -166,7 +166,7 @@ bool Grid_CheckFullLines()
         }
         if (count == GRID_WIDTH) {
             return true;
-       }
+        }
     }
 
     return false;

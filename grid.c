@@ -114,7 +114,7 @@ bool Grid_CanTurn(Shape *shape)
 
     Grid_DrawShape(shape);
 
-    return true;
+    return result;
 }
 
 bool Grid_CanMoveRight(Shape *shape)

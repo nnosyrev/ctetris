@@ -168,6 +168,17 @@
     } \
 }
 
+#define FRAME_COLOR 0x000000
+
+#define COLOR_WHITE 0xFFFFFF
+#define COLOR_RED 0xFF0000
+#define COLOR_ORANGE 0xFFA500
+#define COLOR_YELLOW 0xFFFF00
+#define COLOR_GREEN 0x008000
+#define COLOR_LIGHTBLUE 0xADD8E6
+#define COLOR_BLUE 0x0000FF
+#define COLOR_PURPLE 0x800080
+
 typedef struct {
     int oldx;
     int x;
@@ -200,5 +211,9 @@ void Grid_FixShapeToGrid(Shape *shape);
 bool Grid_CheckFullLines();
 void Grid_IdentifySections(Section sections[2]);
 void Grid_DropPart(Section *section);
+void Grid_DrawShape(Shape *shape);
+void Grid_ClearOldShape(Shape *shape);
+
+void Grid_clearShape(Shape *shape);
 
 #endif

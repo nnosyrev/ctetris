@@ -1,7 +1,7 @@
-#include "area.h"
+#include <stdlib.h>
+#include <string.h>
 #include "stdbool.h"
 #include "grid.h"
-#include <stdlib.h>
 
 int grid[GRID_WIDTH][GRID_HEIGHT] = { 0 };
 
@@ -16,24 +16,36 @@ void Grid_Turn(Shape *shape)
 {
     shape->oldState = shape->state;
     shape->state = (shape->state + 1) % 4;
+
+    Grid_ClearOldShape(shape);
+    Grid_DrawShape(shape);
 }
 
 void Grid_Down(Shape *shape)
 {
     shape->oldy = shape->y;
     shape->y = shape->y + 1;
+
+    Grid_ClearOldShape(shape);
+    Grid_DrawShape(shape);
 }
 
 void Grid_Right(Shape *shape)
 {
     shape->oldx = shape->x;
     shape->x = shape->x + 1;
+
+    Grid_ClearOldShape(shape);
+    Grid_DrawShape(shape);
 }
 
 void Grid_Left(Shape *shape)
 {
     shape->oldx = shape->x;
     shape->x = shape->x - 1;
+
+    Grid_ClearOldShape(shape);
+    Grid_DrawShape(shape);
 }
 
 bool Grid_IsShapeChanged(Shape *shape)
@@ -84,6 +96,9 @@ void Grid_FixShapeToGrid(Shape *shape)
 bool Grid_CanTurn(Shape *shape)
 {
     int resx, resy = 0;
+    bool result = true;
+
+    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
@@ -91,11 +106,13 @@ bool Grid_CanTurn(Shape *shape)
                 resx = shape->x + x;
                 resy = shape->y + y;
                 if (resx < 0 || resx >= GRID_WIDTH || resy >= GRID_HEIGHT || (resy >= 0 && grid[resx][resy] != 0)) {
-                    return false;
+                    result = false;
                 }
             }
         }
     }
+
+    Grid_DrawShape(shape);
 
     return true;
 }
@@ -103,6 +120,9 @@ bool Grid_CanTurn(Shape *shape)
 bool Grid_CanMoveRight(Shape *shape)
 {
     int resx, resy = 0;
+    bool result = true;
+
+    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
@@ -110,18 +130,23 @@ bool Grid_CanMoveRight(Shape *shape)
                 resx = shape->x + x + 1;
                 resy = shape->y + y;
                 if (resx >= GRID_WIDTH || (resy >= 0 && grid[resx][resy] != 0)) {
-                    return false;
+                    result = false;
                 }
             }
         }
     }
 
-    return true;
+    Grid_DrawShape(shape);
+
+    return result;
 }
 
 bool Grid_CanMoveLeft(Shape *shape)
 {
     int resx, resy = 0;
+    bool result = true;
+
+    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
@@ -129,18 +154,23 @@ bool Grid_CanMoveLeft(Shape *shape)
                 resx = shape->x + x - 1;
                 resy = shape->y + y;
                 if (resx < 0 || (resy >= 0 && grid[resx][resy] != 0)) {
-                    return false;
+                    result = false;
                 }
             }
         }
     }
 
-    return true;
+    Grid_DrawShape(shape);
+
+    return result;
 }
 
 bool Grid_CanMoveDown(Shape *shape)
 {
     int resx, resy = 0;
+    bool result = true;
+
+    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
@@ -148,13 +178,15 @@ bool Grid_CanMoveDown(Shape *shape)
                 resx = shape->x + x;
                 resy = shape->y + y + 1;
                 if (resy >= GRID_HEIGHT || (resy >= 0 && grid[resx][resy] != 0)) {
-                    return false;
+                    result = false;
                 }
             }
         }
     }
 
-    return true;
+    Grid_DrawShape(shape);
+
+    return result;
 }
 
 bool Grid_CheckFullLines()
@@ -216,6 +248,39 @@ void Grid_DropPart(Section *section)
     for (int8_t y = section->top - 1; y >= 0; y--) {
         for (int8_t x = 0; x < GRID_WIDTH; x++) {
             grid[x][y + height] = grid[x][y];
+        }
+    }
+}
+
+void Grid_DrawShape(Shape *shape)
+{
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1 && (shape->y + y) >= 0) {
+                grid[shape->x + x][shape->y + y] = shape->color;
+            }
+        }
+    }
+}
+
+void Grid_clearShape(Shape *shape)
+{
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->state][x][y] == 1 && (shape->y + y) >= 0) {
+                grid[shape->x + x][shape->y + y] = 0;
+            }
+        }
+    }
+}
+
+void Grid_ClearOldShape(Shape *shape)
+{
+    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
+        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
+            if (shape->shape[shape->oldState][x][y] == 1 && (shape->oldy + y) >= 0) {
+                grid[shape->oldx + x][shape->oldy + y] = 0;
+            }
         }
     }
 }

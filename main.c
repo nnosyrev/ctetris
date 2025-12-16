@@ -1,7 +1,7 @@
 #include <SDL3/SDL_timer.h>
+#include <stdbool.h>
 #include <stdlib.h>
-#include "window.h"
-#include "area.h"
+#include "ui.h"
 #include "grid.h"
 
 Section sections[MAX_SECTIONS];
@@ -11,19 +11,19 @@ unsigned int lastTime = 0, currentTime;
 
 int main(int argc, char* argv[])
 {
-    Window window = Window_Create("Title", 800, 700);
-
-    Area area = Area_Show(&window, 10, 10, COLOR_WHITE);
+    UI_CreateWindow("Title", 800, 700);
 
     shape = Grid_CreateShape();
 
-    Area_DrawShape(&area, &shape);
+    Grid_DrawShape(&shape);
+    UI_Refresh();
 
     bool done = false;
     while (!done) {
-        Window_Event event;
+        //Window_Event event;
+        SDL_Event event;
 
-        while (Window_PollEvent(&event)) {
+        while (UI_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
                 done = true;
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
@@ -58,9 +58,9 @@ int main(int argc, char* argv[])
             lastTime = currentTime;
         }
 
+
         if (Grid_IsShapeChanged(&shape)) {
-            Area_ClearOldShape(&area, &shape);
-            Area_DrawShape(&area, &shape);
+            UI_Refresh();
 
             Grid_MarkAsUpdated(&shape);
 
@@ -70,9 +70,8 @@ int main(int argc, char* argv[])
                 if (Grid_CheckFullLines()) {
                     Grid_IdentifySections(sections);
                     for (int8_t i = 0; i < MAX_SECTIONS; i++) {
-                        Area_ClearSection(&area, &sections[i]);
                         Grid_DropPart(&sections[i]);
-                        Area_DropPart(&area, &sections[i]);
+                        UI_Refresh();
                     }
                 }
 
@@ -81,7 +80,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    Window_Destroy(window);
+    UI_DestroyWindow();
 
     return EXIT_SUCCESS;
 }

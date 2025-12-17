@@ -263,17 +263,6 @@ void Grid_DrawShape(Shape *shape)
     }
 }
 
-void Grid_clearShape(Shape *shape)
-{
-    for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
-        for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
-            if (shape->shape[shape->state][x][y] == 1 && (shape->y + y) >= 0) {
-                grid[shape->x + x][shape->y + y] = 0;
-            }
-        }
-    }
-}
-
 void Grid_ClearOldShape(Shape *shape)
 {
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {

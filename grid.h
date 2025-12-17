@@ -214,6 +214,4 @@ void Grid_DropPart(Section *section);
 void Grid_DrawShape(Shape *shape);
 void Grid_ClearOldShape(Shape *shape);
 
-void Grid_clearShape(Shape *shape);
-
 #endif

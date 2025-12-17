@@ -96,97 +96,97 @@ void Grid_FixShapeToGrid(Shape *shape)
 bool Grid_CanTurn(Shape *shape)
 {
     int resx, resy = 0;
-    bool result = true;
-
-    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[(shape->state + 1) % 4][x][y] == 1) {
+                // Если в текущем state на этом месте есть квадратик фигуры, то пропускаем
+                if (shape->shape[shape->state][x][y] == 1) {
+                    continue;
+                }
+
                 resx = shape->x + x;
                 resy = shape->y + y;
                 if (resx < 0 || resx >= GRID_WIDTH || resy >= GRID_HEIGHT || (resy >= 0 && grid[resx][resy] != 0)) {
-                    result = false;
+                    return false;
                 }
             }
         }
     }
 
-    Grid_DrawShape(shape);
-
-    return result;
+    return true;
 }
 
 bool Grid_CanMoveRight(Shape *shape)
 {
     int resx, resy = 0;
-    bool result = true;
-
-    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[shape->state][x][y] == 1) {
+                // Если правее квадратика фигуры есть другой квадратик фигуры, то пропускаем
+                if (x + 1 < SHAPE_WIDTH && shape->shape[shape->state][x + 1][y] == 1) {
+                    continue;
+                }
+
                 resx = shape->x + x + 1;
                 resy = shape->y + y;
                 if (resx >= GRID_WIDTH || (resy >= 0 && grid[resx][resy] != 0)) {
-                    result = false;
+                    return false;
                 }
             }
         }
     }
 
-    Grid_DrawShape(shape);
-
-    return result;
+    return true;
 }
 
 bool Grid_CanMoveLeft(Shape *shape)
 {
     int resx, resy = 0;
-    bool result = true;
-
-    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[shape->state][x][y] == 1) {
+                // Если левее квадратика фигуры есть другой квадратик фигуры, то пропускаем
+                if (x - 1 >= 0 && shape->shape[shape->state][x - 1][y] == 1) {
+                    continue;
+                }
+
                 resx = shape->x + x - 1;
                 resy = shape->y + y;
                 if (resx < 0 || (resy >= 0 && grid[resx][resy] != 0)) {
-                    result = false;
+                    return false;
                 }
             }
         }
     }
 
-    Grid_DrawShape(shape);
-
-    return result;
+    return true;
 }
 
 bool Grid_CanMoveDown(Shape *shape)
 {
     int resx, resy = 0;
-    bool result = true;
-
-    Grid_clearShape(shape);
 
     for (int8_t x = 0; x < SHAPE_WIDTH; x++) {
         for (int8_t y = 0; y < SHAPE_HEIGHT; y++) {
             if (shape->shape[shape->state][x][y] == 1) {
+                // Если ниже квадратика фигуры есть другой квадратик фигуры, то пропускаем
+                if (y + 1 < SHAPE_HEIGHT && shape->shape[shape->state][x][y + 1] == 1) {
+                    continue;
+                }
+
                 resx = shape->x + x;
                 resy = shape->y + y + 1;
                 if (resy >= GRID_HEIGHT || (resy >= 0 && grid[resx][resy] != 0)) {
-                    result = false;
+                    return false;
                 }
             }
         }
     }
 
-    Grid_DrawShape(shape);
-
-    return result;
+    return true;
 }
 
 bool Grid_CheckFullLines()

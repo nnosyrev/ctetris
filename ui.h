@@ -11,7 +11,7 @@
 
 #define FRAME_COLOR 0x000000
 
-void UI_CreateWindow(char *title, int width, int height);
+bool UI_CreateWindow(char *title, int width, int height);
 void UI_DestroyWindow();
 bool UI_PollEvent(SDL_Event *event);
 int UI_getRColor(int color);

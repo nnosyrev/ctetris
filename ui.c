@@ -10,17 +10,19 @@ SDL_Renderer *renderer;
 
 extern int grid[GRID_WIDTH][GRID_HEIGHT];
 
-void UI_CreateWindow(char *title, int width, int height)
+bool UI_CreateWindow(char *title, int width, int height)
 {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
-        //return 1;
+        return false;
     }
 
     if (!SDL_CreateWindowAndRenderer(title, width, height, SDL_WINDOW_OPENGL, &window, &renderer)) {
         SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
-        //return 1;
+        return false;
     }
+
+    return true;
 }
 
 void UI_DestroyWindow()

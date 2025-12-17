@@ -4,14 +4,18 @@
 #include "ui.h"
 #include "grid.h"
 
+#define PAUSE_DURATION 1000
+
 Section sections[MAX_SECTIONS];
 Shape shape;
 
-unsigned int lastTime = 0, currentTime;
+unsigned int lastTime = 0, currentTime, pauseTime = 0;
 
 int main(int argc, char* argv[])
 {
-    UI_CreateWindow("Title", 800, 700);
+    if (!UI_CreateWindow("Title", 800, 700)) {
+        return EXIT_FAILURE;
+    }
 
     shape = Grid_CreateShape();
 
@@ -20,7 +24,6 @@ int main(int argc, char* argv[])
 
     bool done = false;
     while (!done) {
-        //Window_Event event;
         SDL_Event event;
 
         while (UI_PollEvent(&event)) {
@@ -58,13 +61,17 @@ int main(int argc, char* argv[])
             lastTime = currentTime;
         }
 
-
         if (Grid_IsShapeChanged(&shape)) {
             UI_Refresh();
-
             Grid_MarkAsUpdated(&shape);
+        }
 
-            if (!Grid_CanMoveDown(&shape)) {
+        if (!Grid_CanMoveDown(&shape)) {
+            if (pauseTime == 0) {
+                pauseTime = SDL_GetTicks();
+            }
+
+            if (pauseTime != 0 && SDL_GetTicks() > pauseTime + PAUSE_DURATION) {
                 Grid_FixShapeToGrid(&shape);
 
                 if (Grid_CheckFullLines()) {
@@ -76,6 +83,10 @@ int main(int argc, char* argv[])
                 }
 
                 shape = Grid_CreateShape();
+                Grid_DrawShape(&shape);
+                UI_Refresh();
+
+                pauseTime = 0;
             }
         }
     }

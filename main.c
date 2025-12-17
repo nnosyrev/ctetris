@@ -1,6 +1,7 @@
 #include <SDL3/SDL_timer.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 #include "ui.h"
 #include "grid.h"
 
@@ -16,6 +17,8 @@ int main(int argc, char* argv[])
     if (!UI_CreateWindow("Title", 800, 700)) {
         return EXIT_FAILURE;
     }
+
+    srand(time(NULL));
 
     shape = Grid_CreateShape();
 

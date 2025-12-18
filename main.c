@@ -66,6 +66,9 @@ int main(int argc, char* argv[])
 
         if (Grid_IsShapeChanged(&shape)) {
             UI_Refresh();
+            if (Grid_LastMoveWasDown(&shape)) {
+                lastTime = SDL_GetTicks();
+            }
             Grid_MarkAsUpdated(&shape);
         }
 
@@ -83,6 +86,9 @@ int main(int argc, char* argv[])
                         Grid_DropPart(&sections[i]);
                         UI_Refresh();
                     }
+
+                    SDL_Delay(PAUSE_DURATION);
+                    lastTime = SDL_GetTicks();
                 }
 
                 shape = Grid_CreateShape();

@@ -56,6 +56,11 @@ bool Grid_IsShapeChanged(Shape *shape)
     return false;
 }
 
+bool Grid_LastMoveWasDown(Shape *shape)
+{
+    return shape->oldy < shape->y;
+}
+
 void Grid_MarkAsUpdated(Shape *shape)
 {
     shape->oldx = shape->x;

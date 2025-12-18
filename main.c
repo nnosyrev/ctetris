@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
                 } else if (event.key.scancode == SDL_SCANCODE_DOWN) {
                     if (Grid_CanMoveDown(&shape)) {
                         Grid_Down(&shape);
+                        lastTime = SDL_GetTicks();
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_RIGHT) {
                     if (Grid_CanMoveRight(&shape)) {
@@ -66,9 +67,6 @@ int main(int argc, char* argv[])
 
         if (Grid_IsShapeChanged(&shape)) {
             UI_Refresh();
-            if (Grid_LastMoveWasDown(&shape)) {
-                lastTime = SDL_GetTicks();
-            }
             Grid_MarkAsUpdated(&shape);
         }
 

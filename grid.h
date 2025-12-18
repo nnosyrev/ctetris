@@ -202,7 +202,6 @@ void Grid_Down(Shape *shape);
 void Grid_Right(Shape *shape);
 void Grid_Left(Shape *shape);
 bool Grid_IsShapeChanged(Shape *shape);
-bool Grid_LastMoveWasDown(Shape *shape);
 void Grid_MarkAsUpdated(Shape *shape);
 bool Grid_CanMoveRight(Shape *shape);
 bool Grid_CanMoveLeft(Shape *shape);

@@ -1,18 +1,21 @@
 #include "ui.h"
 #include "grid.h"
 
-#define AREA_X 10
-#define AREA_Y 10
+#define AREA_X 15
+#define AREA_Y 15
 #define AREA_COLOR 0xFFFFFF
+#define WINDOW_COLOR 0x333333
 
 SDL_Window *window;
 SDL_Renderer *renderer;
+TTF_Font *font;
+SDL_Color textColor = { 200, 200, 200, 255 };
 
 extern int grid[GRID_WIDTH][GRID_HEIGHT];
 
 bool UI_CreateWindow(char *title, int width, int height)
 {
-    if (!SDL_Init(SDL_INIT_VIDEO)) {
+    if (!SDL_Init(SDL_INIT_VIDEO) || !TTF_Init()) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return false;
     }
@@ -22,13 +25,22 @@ bool UI_CreateWindow(char *title, int width, int height)
         return false;
     }
 
+    font = TTF_OpenFont("./assets/font.ttf", 35.0f);
+    if (!font) {
+        SDL_Log("Failed to load font: %s", SDL_GetError());
+        return false;
+    }
+
     return true;
 }
 
 void UI_DestroyWindow()
 {
+    //SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -100,10 +112,22 @@ void UI_clearSquare(int x, int y)
     SDL_RenderFillRect(renderer, &outer);
 }
 
-void UI_Refresh()
+void UI_Refresh(/*cleansCount, level, next*/)
 {
-    //SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(
+        renderer, UI_getRColor(WINDOW_COLOR), UI_getGColor(WINDOW_COLOR), UI_getBColor(WINDOW_COLOR), 0xff
+    );
+    SDL_RenderClear(renderer);
 
+    // UI_mainShow();
+    UI_printText("Cleans", 350, 50);
+    UI_printText("12", 450, 100);
+
+    UI_printText("Level", 350, 200);
+    UI_printText("03", 450, 250);
+
+    UI_printText("Next", 350, 350);
+    // UI_nextDraw(next, 300, 300);
     UI_areaShow();
     UI_gridShow();
 
@@ -134,4 +158,20 @@ void UI_gridShow()
             }
         }
     }
+}
+
+void UI_printText(char *text, float x, float y)
+{
+    // TODO: сохранять текстуру а не создавать заново каждый раз.
+    SDL_Texture *textTexture;
+
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, text, 0, textColor);
+    textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_DestroySurface(textSurface);
+
+    SDL_FRect textRect = { x, y, 0, 0 };
+    SDL_GetTextureSize(textTexture, &textRect.w, &textRect.h);
+
+    SDL_RenderTexture(renderer, textTexture, NULL, &textRect);
+    SDL_DestroyTexture(textTexture);
 }

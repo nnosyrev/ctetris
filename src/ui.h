@@ -5,6 +5,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_events.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #define SQUARE_WIDTH 30
 #define FRAME_WIDTH 1
@@ -22,5 +23,6 @@ void UI_clearSquare(int x, int y);
 void UI_Refresh();
 void UI_areaShow();
 void UI_gridShow();
+void UI_printText(char *text, float x, float y);
 
 #endif

@@ -8,9 +8,11 @@
 #define PAUSE_DURATION 1000
 
 Section sections[MAX_SECTIONS];
-Shape shape;
+Shape shape, nextShape;
 
 unsigned int lastTime = 0, currentTime, pauseTime = 0;
+
+int cleansCount = 0;
 
 int main(int argc, char* argv[])
 {
@@ -21,9 +23,10 @@ int main(int argc, char* argv[])
     srand(time(NULL));
 
     shape = Grid_CreateShape();
+    nextShape = Grid_CreateShape();
 
     Grid_DrawShape(&shape);
-    UI_Refresh();
+    UI_Refresh(cleansCount, &nextShape);
 
     bool done = false;
     while (!done) {
@@ -66,7 +69,7 @@ int main(int argc, char* argv[])
         }
 
         if (Grid_IsShapeChanged(&shape)) {
-            UI_Refresh();
+            UI_Refresh(cleansCount, &nextShape);
             Grid_MarkAsUpdated(&shape);
         }
 
@@ -81,17 +84,22 @@ int main(int argc, char* argv[])
                 if (Grid_CheckFullLines()) {
                     Grid_IdentifySections(sections);
                     for (int8_t i = 0; i < MAX_SECTIONS; i++) {
-                        Grid_DropPart(&sections[i]);
-                        UI_Refresh();
+                        if (sections[i].top != -1 && sections[i].bottom != -1) {
+                            Grid_DropPart(&sections[i]);
+                            cleansCount += (sections[i].bottom - sections[i].top + 1);
+                        }
                     }
+                    UI_Refresh(cleansCount, &nextShape);
 
                     SDL_Delay(PAUSE_DURATION);
                     lastTime = SDL_GetTicks();
                 }
 
-                shape = Grid_CreateShape();
+                shape = nextShape;
+                nextShape = Grid_CreateShape();
+
                 Grid_DrawShape(&shape);
-                UI_Refresh();
+                UI_Refresh(cleansCount, &nextShape);
 
                 pauseTime = 0;
             }

@@ -211,6 +211,10 @@ void Grid_IdentifySections(Section sections[MAX_SECTIONS])
 {
     Section section = { -1, -1 };
 
+    for (int8_t i = 0; i < MAX_SECTIONS; i++) {
+        sections[i] = section;
+    }
+
     int i = 0;
 
     int count;

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "ui.h"
 #include "grid.h"
 
@@ -10,6 +11,7 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 TTF_Font *font;
 SDL_Color textColor = { 200, 200, 200, 255 };
+char str[20];
 
 extern int grid[GRID_WIDTH][GRID_HEIGHT];
 
@@ -64,16 +66,16 @@ int UI_getBColor(int color)
     return color & 0xFF;
 }
 
-void UI_drawSquare(int x, int y, int color)
+void UI_drawSquare(int x, int y, int col, int row, int color)
 {
-    if (y < 0) {
+    if (row < 0) {
         return;
     }
 
     SDL_FRect outer;
 
-    outer.x = x * SQUARE_WIDTH + AREA_X;
-    outer.y = y * SQUARE_WIDTH + AREA_Y;
+    outer.x = col * SQUARE_WIDTH + x;
+    outer.y = row * SQUARE_WIDTH + y;
     outer.w = SQUARE_WIDTH;
     outer.h = SQUARE_WIDTH;
 
@@ -93,16 +95,16 @@ void UI_drawSquare(int x, int y, int color)
     SDL_RenderFillRect(renderer, &inner);
 }
 
-void UI_clearSquare(int x, int y)
+void UI_clearSquare(int x, int y, int col, int row)
 {
-    if (y < 0) {
+    if (row < 0) {
         return;
     }
 
     SDL_FRect outer;
 
-    outer.x = x * SQUARE_WIDTH + AREA_X;
-    outer.y = y * SQUARE_WIDTH + AREA_Y;
+    outer.x = col * SQUARE_WIDTH + x;
+    outer.y = row * SQUARE_WIDTH + y;
     outer.w = SQUARE_WIDTH;
     outer.h = SQUARE_WIDTH;
 
@@ -112,22 +114,22 @@ void UI_clearSquare(int x, int y)
     SDL_RenderFillRect(renderer, &outer);
 }
 
-void UI_Refresh(/*cleansCount, level, next*/)
+void UI_Refresh(int cleansCount, Shape *shape/*, int level*/)
 {
     SDL_SetRenderDrawColor(
         renderer, UI_getRColor(WINDOW_COLOR), UI_getGColor(WINDOW_COLOR), UI_getBColor(WINDOW_COLOR), 0xff
     );
     SDL_RenderClear(renderer);
 
-    // UI_mainShow();
     UI_printText("Cleans", 350, 50);
-    UI_printText("12", 450, 100);
+    UI_printText(UI_intToStr(cleansCount), 450, 100);
 
     UI_printText("Level", 350, 200);
     UI_printText("03", 450, 250);
 
     UI_printText("Next", 350, 350);
-    // UI_nextDraw(next, 300, 300);
+    UI_showShape(shape, 350, 400);
+
     UI_areaShow();
     UI_gridShow();
 
@@ -149,12 +151,12 @@ void UI_areaShow()
 
 void UI_gridShow()
 {
-    for (int8_t y = 0; y < GRID_HEIGHT; y++) {
-        for (int8_t x = 0; x < GRID_WIDTH; x++) {
-            if (grid[x][y] == 0) {
-                UI_clearSquare(x, y);
+    for (int8_t row = 0; row < GRID_HEIGHT; row++) {
+        for (int8_t col = 0; col < GRID_WIDTH; col++) {
+            if (grid[col][row] == 0) {
+                UI_clearSquare(AREA_X, AREA_Y, col, row);
             } else {
-                UI_drawSquare(x, y, grid[x][y]);
+                UI_drawSquare(AREA_X, AREA_Y, col, row, grid[col][row]);
             }
         }
     }
@@ -174,4 +176,22 @@ void UI_printText(char *text, float x, float y)
 
     SDL_RenderTexture(renderer, textTexture, NULL, &textRect);
     SDL_DestroyTexture(textTexture);
+}
+
+char *UI_intToStr(int value)
+{
+    sprintf(str, "%d", value);
+
+    return str;
+}
+
+void UI_showShape(Shape *shape, float x, float y)
+{
+    for (int8_t col = 0; col < SHAPE_WIDTH; col++) {
+        for (int8_t row = 0; row < SHAPE_HEIGHT; row++) {
+            if (shape->shape[0][col][row] == 1) {
+                UI_drawSquare(x, y, col, row, shape->color);
+            }
+        }
+    }
 }

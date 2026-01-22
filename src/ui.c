@@ -2,11 +2,6 @@
 #include "ui.h"
 #include "grid.h"
 
-#define AREA_X 15
-#define AREA_Y 15
-#define AREA_COLOR 0xFFFFFF
-#define WINDOW_COLOR 0x333333
-
 SDL_Window *window;
 SDL_Renderer *renderer;
 TTF_Font *font;

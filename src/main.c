@@ -7,8 +7,8 @@
 #include "grid.h"
 
 #define INIT_PAUSE_DURATION 1000
-#define LEVEL_THRESHOLD 20 // Каждые 20 строк увеличиваем level
-#define PAUSE_REDUCING 50 // Каждый level уменьшаем паузу на
+#define LEVEL_THRESHOLD 20 // Каждые LEVEL_THRESHOLD строк увеличиваем level
+#define PAUSE_REDUCING 50 // Каждый level уменьшаем паузу на PAUSE_REDUCING
 
 Section sections[MAX_SECTIONS];
 Shape shape, nextShape;
@@ -20,7 +20,7 @@ int pauseDuration = INIT_PAUSE_DURATION;
 
 int main(int argc, char* argv[])
 {
-    if (!UI_CreateWindow("Title", 800, 700)) {
+    if (!UI_CreateWindow("Title", 700, 700)) {
         return EXIT_FAILURE;
     }
 

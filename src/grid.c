@@ -2,6 +2,7 @@
 #include <string.h>
 #include "stdbool.h"
 #include "grid.h"
+#include "ui.h"
 
 int grid[GRID_WIDTH][GRID_HEIGHT] = { 0 };
 

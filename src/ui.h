@@ -12,6 +12,20 @@
 #define FRAME_WIDTH 1
 
 #define FRAME_COLOR 0x000000
+#define AREA_COLOR 0xFFFFFF
+#define WINDOW_COLOR 0x333333
+
+#define COLOR_WHITE 0xFFFFFF
+#define COLOR_RED 0xFF0000
+#define COLOR_ORANGE 0xFFA500
+#define COLOR_YELLOW 0xFFFF00
+#define COLOR_GREEN 0x008000
+#define COLOR_LIGHTBLUE 0xADD8E6
+#define COLOR_BLUE 0x0000FF
+#define COLOR_PURPLE 0x800080
+
+#define AREA_X 15
+#define AREA_Y 15
 
 bool UI_CreateWindow(char *title, int width, int height);
 void UI_DestroyWindow();

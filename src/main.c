@@ -2,15 +2,17 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "ui.h"
 #include "grid.h"
 
 #define PAUSE_DURATION 1000
+#define LEVEL_THRESHOLD 20
 
 Section sections[MAX_SECTIONS];
 Shape shape, nextShape;
 
-unsigned int lastTime = 0, currentTime, pauseTime = 0;
+unsigned int lastTime = 0, currentTime, pauseTime = 0, level = 0;
 
 int cleansCount = 0;
 
@@ -26,7 +28,7 @@ int main(int argc, char* argv[])
     nextShape = Grid_CreateShape();
 
     Grid_DrawShape(&shape);
-    UI_Refresh(cleansCount, &nextShape);
+    UI_Refresh(cleansCount, &nextShape, level);
 
     bool done = false;
     while (!done) {
@@ -69,7 +71,7 @@ int main(int argc, char* argv[])
         }
 
         if (Grid_IsShapeChanged(&shape)) {
-            UI_Refresh(cleansCount, &nextShape);
+            UI_Refresh(cleansCount, &nextShape, level);
             Grid_MarkAsUpdated(&shape);
         }
 
@@ -89,9 +91,12 @@ int main(int argc, char* argv[])
                             cleansCount += (sections[i].bottom - sections[i].top + 1);
                         }
                     }
-                    UI_Refresh(cleansCount, &nextShape);
+                    level = (int) floor(cleansCount / LEVEL_THRESHOLD);
+
+                    UI_Refresh(cleansCount, &nextShape, level);
 
                     SDL_Delay(PAUSE_DURATION);
+
                     lastTime = SDL_GetTicks();
                 }
 
@@ -99,7 +104,7 @@ int main(int argc, char* argv[])
                 nextShape = Grid_CreateShape();
 
                 Grid_DrawShape(&shape);
-                UI_Refresh(cleansCount, &nextShape);
+                UI_Refresh(cleansCount, &nextShape, level);
 
                 pauseTime = 0;
             }

@@ -114,7 +114,7 @@ void UI_clearSquare(int x, int y, int col, int row)
     SDL_RenderFillRect(renderer, &outer);
 }
 
-void UI_Refresh(int cleansCount, Shape *shape/*, int level*/)
+void UI_Refresh(int cleansCount, Shape *shape, int level)
 {
     SDL_SetRenderDrawColor(
         renderer, UI_getRColor(WINDOW_COLOR), UI_getGColor(WINDOW_COLOR), UI_getBColor(WINDOW_COLOR), 0xff
@@ -125,7 +125,7 @@ void UI_Refresh(int cleansCount, Shape *shape/*, int level*/)
     UI_printText(UI_intToStr(cleansCount), 450, 100);
 
     UI_printText("Level", 350, 200);
-    UI_printText("03", 450, 250);
+    UI_printText(UI_intToStr(level), 450, 250);
 
     UI_printText("Next", 350, 350);
     UI_showShape(shape, 350, 400);

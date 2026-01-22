@@ -6,15 +6,17 @@
 #include "ui.h"
 #include "grid.h"
 
-#define PAUSE_DURATION 1000
-#define LEVEL_THRESHOLD 20
+#define INIT_PAUSE_DURATION 1000
+#define LEVEL_THRESHOLD 20 // Каждые 20 строк увеличиваем level
+#define PAUSE_REDUCING 50 // Каждый level уменьшаем паузу на
 
 Section sections[MAX_SECTIONS];
 Shape shape, nextShape;
 
-unsigned int lastTime = 0, currentTime, pauseTime = 0, level = 0;
-
+int lastTime = 0, currentTime, pauseTime = 0;
+int level = 0;
 int cleansCount = 0;
+int pauseDuration = INIT_PAUSE_DURATION;
 
 int main(int argc, char* argv[])
 {
@@ -62,7 +64,7 @@ int main(int argc, char* argv[])
         }
 
         currentTime = SDL_GetTicks();
-        if (currentTime > lastTime + 1000) {
+        if (currentTime > lastTime + pauseDuration) {
             if (Grid_CanMoveDown(&shape)) {
                 Grid_Down(&shape);
             }
@@ -80,22 +82,24 @@ int main(int argc, char* argv[])
                 pauseTime = SDL_GetTicks();
             }
 
-            if (pauseTime != 0 && SDL_GetTicks() > pauseTime + PAUSE_DURATION) {
+            if (pauseTime != 0 && SDL_GetTicks() > pauseTime + pauseDuration) {
                 Grid_FixShapeToGrid(&shape);
 
                 if (Grid_CheckFullLines()) {
                     Grid_IdentifySections(sections);
+
                     for (int8_t i = 0; i < MAX_SECTIONS; i++) {
                         if (sections[i].top != -1 && sections[i].bottom != -1) {
                             Grid_DropPart(&sections[i]);
                             cleansCount += (sections[i].bottom - sections[i].top + 1);
                         }
                     }
+
                     level = (int) floor(cleansCount / LEVEL_THRESHOLD);
+                    pauseDuration = INIT_PAUSE_DURATION - (level * PAUSE_REDUCING);
 
                     UI_Refresh(cleansCount, &nextShape, level);
-
-                    SDL_Delay(PAUSE_DURATION);
+                    SDL_Delay(pauseDuration);
 
                     lastTime = SDL_GetTicks();
                 }

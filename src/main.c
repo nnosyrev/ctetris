@@ -20,7 +20,7 @@ int pauseDuration = INIT_PAUSE_DURATION;
 
 int main(int argc, char* argv[])
 {
-    if (!UI_CreateWindow("Title", 560, 700)) {
+    if (!UI_CreateWindow("Title", 510, 700)) {
         return EXIT_FAILURE;
     }
 
@@ -98,6 +98,8 @@ int main(int argc, char* argv[])
                     level = (int) floor(cleansCount / LEVEL_THRESHOLD);
                     pauseDuration = INIT_PAUSE_DURATION - (level * PAUSE_REDUCING);
 
+                    // TODO: походу во время паузы события нажатия клавиш копятся в стеке а после
+                    // паузы все разом срабатывают. Надо что то с этим сделать
                     UI_Refresh(cleansCount, &nextShape, level);
                     SDL_Delay(pauseDuration);
 

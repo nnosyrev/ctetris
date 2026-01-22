@@ -32,7 +32,7 @@ bool UI_CreateWindow(char *title, int width, int height)
 
     SDL_Color smallStyleColor = { 210, 210, 210, 255 };
     smallStyle.color = smallStyleColor;
-    smallStyle.font = TTF_OpenFont("./assets/font.ttf", 19.0f);
+    smallStyle.font = TTF_OpenFont("./assets/font.ttf", 16.0f);
     if (!smallStyle.font) {
         SDL_Log("Failed to load font: %s", SDL_GetError());
         return false;
@@ -136,7 +136,7 @@ void UI_Refresh(int cleansCount, Shape *shape, int level)
     UI_printText("Next", 350, 350, normalStyle);
     UI_showShape(shape, 350, 400);
 
-    UI_printText("↑↓←→ Movements    ␣ Drop    R Restart    Q Quit", 20, 660, smallStyle);
+    UI_printText("↑↓←→ Movements    ␣ Drop    R Restart    Q Quit", 20, 670, smallStyle);
 
     UI_areaShow();
     UI_gridShow();

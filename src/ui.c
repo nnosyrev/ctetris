@@ -4,9 +4,9 @@
 
 SDL_Window *window;
 SDL_Renderer *renderer;
-TTF_Font *font;
-SDL_Color textColor = { 200, 200, 200, 255 };
 char str[20];
+
+TextStyle smallStyle, normalStyle;
 
 extern int grid[GRID_WIDTH][GRID_HEIGHT];
 
@@ -22,8 +22,18 @@ bool UI_CreateWindow(char *title, int width, int height)
         return false;
     }
 
-    font = TTF_OpenFont("./assets/font.ttf", 35.0f);
-    if (!font) {
+    SDL_Color normalStyleColor = { 200, 200, 200, 255 };
+    normalStyle.color = normalStyleColor;
+    normalStyle.font = TTF_OpenFont("./assets/font.ttf", 35.0f);
+    if (!normalStyle.font) {
+        SDL_Log("Failed to load font: %s", SDL_GetError());
+        return false;
+    }
+
+    SDL_Color smallStyleColor = { 210, 210, 210, 255 };
+    smallStyle.color = smallStyleColor;
+    smallStyle.font = TTF_OpenFont("./assets/font.ttf", 19.0f);
+    if (!smallStyle.font) {
         SDL_Log("Failed to load font: %s", SDL_GetError());
         return false;
     }
@@ -34,7 +44,8 @@ bool UI_CreateWindow(char *title, int width, int height)
 void UI_DestroyWindow()
 {
     //SDL_DestroyTexture(textTexture);
-    TTF_CloseFont(font);
+    TTF_CloseFont(normalStyle.font);
+    TTF_CloseFont(smallStyle.font);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     TTF_Quit();
@@ -116,14 +127,16 @@ void UI_Refresh(int cleansCount, Shape *shape, int level)
     );
     SDL_RenderClear(renderer);
 
-    UI_printText("Cleans", 350, 50);
-    UI_printText(UI_intToStr(cleansCount), 450, 100);
+    UI_printText("Cleans", 350, 50, normalStyle);
+    UI_printText(UI_intToStr(cleansCount), 450, 100, normalStyle);
 
-    UI_printText("Level", 350, 200);
-    UI_printText(UI_intToStr(level), 450, 250);
+    UI_printText("Level", 350, 200, normalStyle);
+    UI_printText(UI_intToStr(level), 450, 250, normalStyle);
 
-    UI_printText("Next", 350, 350);
+    UI_printText("Next", 350, 350, normalStyle);
     UI_showShape(shape, 350, 400);
+
+    UI_printText("↑↓←→ Movements    ␣ Drop    R Restart    Q Quit", 20, 660, smallStyle);
 
     UI_areaShow();
     UI_gridShow();
@@ -157,12 +170,12 @@ void UI_gridShow()
     }
 }
 
-void UI_printText(char *text, float x, float y)
+void UI_printText(char *text, float x, float y, TextStyle style)
 {
     // TODO: сохранять текстуру а не создавать заново каждый раз.
     SDL_Texture *textTexture;
 
-    SDL_Surface *textSurface = TTF_RenderText_Blended(font, text, 0, textColor);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(style.font, text, 0, style.color);
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_DestroySurface(textSurface);
 

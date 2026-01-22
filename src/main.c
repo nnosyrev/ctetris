@@ -20,7 +20,7 @@ int pauseDuration = INIT_PAUSE_DURATION;
 
 int main(int argc, char* argv[])
 {
-    if (!UI_CreateWindow("Title", 700, 700)) {
+    if (!UI_CreateWindow("Title", 560, 700)) {
         return EXIT_FAILURE;
     }
 

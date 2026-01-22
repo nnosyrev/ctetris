@@ -27,6 +27,11 @@
 #define AREA_X 15
 #define AREA_Y 15
 
+typedef struct {
+    TTF_Font *font;
+    SDL_Color color;
+} TextStyle;
+
 bool UI_CreateWindow(char *title, int width, int height);
 void UI_DestroyWindow();
 bool UI_PollEvent(SDL_Event *event);
@@ -38,7 +43,7 @@ void UI_clearSquare(int x, int y, int col, int row);
 void UI_Refresh(int cleansCount, Shape *shape, int level);
 void UI_areaShow();
 void UI_gridShow();
-void UI_printText(char *text, float x, float y);
+void UI_printText(char *text, float x, float y, TextStyle style);
 char *UI_intToStr(int value);
 void UI_showShape(Shape *shape, float x, float y);
 

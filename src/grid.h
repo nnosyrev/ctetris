@@ -175,7 +175,7 @@ typedef struct {
     int y;
     int oldState;
     int state;
-    int shape[4][4][4];
+    int shape[4][SHAPE_WIDTH][SHAPE_HEIGHT];
     int color;
 } Shape;
 

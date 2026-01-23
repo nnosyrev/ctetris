@@ -128,13 +128,13 @@ void UI_Refresh(int cleansCount, Shape *shape, int level)
     SDL_RenderClear(renderer);
 
     UI_printText("Cleans", 350, 50, normalStyle);
-    UI_printText(UI_intToStr(cleansCount), 450, 100, normalStyle);
+    UI_printText(UI_intToStr(cleansCount), 350, 100, normalStyle);
 
     UI_printText("Level", 350, 200, normalStyle);
-    UI_printText(UI_intToStr(level), 450, 250, normalStyle);
+    UI_printText(UI_intToStr(level), 350, 250, normalStyle);
 
     UI_printText("Next", 350, 350, normalStyle);
-    UI_showShape(shape, 350, 400);
+    UI_showShape(shape, 350, 410);
 
     UI_printText("↑↓←→ Movements    ␣ Drop    R Restart    Q Quit", 20, 670, smallStyle);
 
@@ -172,7 +172,6 @@ void UI_gridShow()
 
 void UI_printText(char *text, float x, float y, TextStyle style)
 {
-    // TODO: сохранять текстуру а не создавать заново каждый раз.
     SDL_Texture *textTexture;
 
     SDL_Surface *textSurface = TTF_RenderText_Blended(style.font, text, 0, style.color);
@@ -195,10 +194,22 @@ char *UI_intToStr(int value)
 
 void UI_showShape(Shape *shape, float x, float y)
 {
+    int countEmpty = 0;
+    for (int8_t col = 0; col < SHAPE_WIDTH; col++) {
+        if (shape->shape[0][col][0] == 0) {
+            countEmpty++;
+        }
+    }
+
+    int offset = 0;
+    if (countEmpty == SHAPE_WIDTH) {
+        offset = 1;
+    }
+
     for (int8_t col = 0; col < SHAPE_WIDTH; col++) {
         for (int8_t row = 0; row < SHAPE_HEIGHT; row++) {
             if (shape->shape[0][col][row] == 1) {
-                UI_drawSquare(x, y, col, row, shape->color);
+                UI_drawSquare(x, y, col, row - offset, shape->color);
             }
         }
     }

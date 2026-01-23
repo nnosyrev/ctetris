@@ -17,6 +17,16 @@ int level = 0;
 int cleansCount = 0;
 int pauseDuration = INIT_PAUSE_DURATION;
 
+int calculateLevel(int cleansCount)
+{
+    return (int) floor(cleansCount / LEVEL_THRESHOLD);
+}
+
+int calculatePauseDuration(int level)
+{
+    return INIT_PAUSE_DURATION - (level * PAUSE_REDUCING);
+}
+
 int main(int argc, char* argv[])
 {
     if (!UI_CreateWindow("Title", 510, 700)) {
@@ -35,6 +45,7 @@ start:
     pauseDuration = INIT_PAUSE_DURATION;
 
     Grid_Init();
+
     shape = Grid_CreateShape();
     nextShape = Grid_CreateShape();
 
@@ -103,8 +114,8 @@ start:
                 if (Grid_CheckFullLines()) {
                     cleansCount += Grid_DeleteFullLines();
 
-                    level = (int) floor(cleansCount / LEVEL_THRESHOLD);
-                    pauseDuration = INIT_PAUSE_DURATION - (level * PAUSE_REDUCING);
+                    level = calculateLevel(cleansCount);
+                    pauseDuration = calculatePauseDuration(level);
 
                     // TODO: походу во время паузы события нажатия клавиш копятся в стеке а после
                     // паузы все разом срабатывают. Надо что то с этим сделать

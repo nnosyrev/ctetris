@@ -13,6 +13,8 @@ int startX[7] = { 4, 3, 3, 3, 3, 3, 3 };
 
 int COLORS[] = { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_LIGHTBLUE, COLOR_BLUE, COLOR_PURPLE };
 
+Section sections[MAX_SECTIONS];
+
 void Grid_Init()
 {
     for (int8_t col = 0; col < GRID_WIDTH; col++) {
@@ -253,6 +255,22 @@ void Grid_IdentifySections(Section sections[MAX_SECTIONS])
             }
         }
     }
+}
+
+int Grid_DeleteFullLines()
+{
+    int cleansCount = 0;
+
+    Grid_IdentifySections(sections);
+
+    for (int8_t i = 0; i < MAX_SECTIONS; i++) {
+        if (sections[i].top != -1 && sections[i].bottom != -1) {
+            Grid_DropPart(&sections[i]);
+            cleansCount += (sections[i].bottom - sections[i].top + 1);
+        }
+    }
+
+    return cleansCount;
 }
 
 void Grid_DropPart(Section *section)

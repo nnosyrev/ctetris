@@ -10,7 +10,6 @@
 #define LEVEL_THRESHOLD 20 // Каждые LEVEL_THRESHOLD строк увеличиваем level
 #define PAUSE_REDUCING 50 // Каждый level уменьшаем паузу на PAUSE_REDUCING
 
-Section sections[MAX_SECTIONS];
 Shape shape, nextShape;
 
 int lastTime = 0, currentTime, pauseTime = 0;
@@ -102,14 +101,7 @@ start:
                 Grid_FixShapeToGrid(&shape);
 
                 if (Grid_CheckFullLines()) {
-                    Grid_IdentifySections(sections);
-
-                    for (int8_t i = 0; i < MAX_SECTIONS; i++) {
-                        if (sections[i].top != -1 && sections[i].bottom != -1) {
-                            Grid_DropPart(&sections[i]);
-                            cleansCount += (sections[i].bottom - sections[i].top + 1);
-                        }
-                    }
+                    cleansCount += Grid_DeleteFullLines();
 
                     level = (int) floor(cleansCount / LEVEL_THRESHOLD);
                     pauseDuration = INIT_PAUSE_DURATION - (level * PAUSE_REDUCING);

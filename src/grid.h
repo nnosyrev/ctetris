@@ -199,6 +199,7 @@ bool Grid_CanTurn(Shape *shape);
 void Grid_FixShapeToGrid(Shape *shape);
 bool Grid_CheckFullLines();
 void Grid_IdentifySections(Section sections[2]);
+int Grid_DeleteFullLines();
 void Grid_DropPart(Section *section);
 void Grid_DrawShape(Shape *shape);
 void Grid_ClearOldShape(Shape *shape);

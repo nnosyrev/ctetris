@@ -13,6 +13,15 @@ int startX[7] = { 4, 3, 3, 3, 3, 3, 3 };
 
 int COLORS[] = { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_LIGHTBLUE, COLOR_BLUE, COLOR_PURPLE };
 
+void Grid_Init()
+{
+    for (int8_t col = 0; col < GRID_WIDTH; col++) {
+        for (int8_t row = 0; row < GRID_HEIGHT; row++) {
+            grid[col][row] = 0;
+        }
+    }
+}
+
 void Grid_Turn(Shape *shape)
 {
     shape->oldState = shape->state;

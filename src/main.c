@@ -26,6 +26,16 @@ int main(int argc, char* argv[])
 
     srand(time(NULL));
 
+start:
+
+    currentTime = SDL_GetTicks();
+    lastTime = currentTime;
+    pauseTime = 0;
+    level = 0;
+    cleansCount = 0;
+    pauseDuration = INIT_PAUSE_DURATION;
+
+    Grid_Init();
     shape = Grid_CreateShape();
     nextShape = Grid_CreateShape();
 
@@ -59,6 +69,12 @@ int main(int argc, char* argv[])
                     if (Grid_CanTurn(&shape)) {
                         Grid_Turn(&shape);
                     }
+                } else if (event.key.scancode == SDL_SCANCODE_SPACE) {
+                    while (Grid_CanMoveDown(&shape)) {
+                        Grid_Down(&shape);
+                    }
+                } else if (event.key.scancode == SDL_SCANCODE_R) {
+                    goto start;
                 }
             }
         }

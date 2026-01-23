@@ -184,8 +184,8 @@ typedef struct {
     int top;
 } Section;
 
+void Grid_Init();
 Shape Grid_CreateShape();
-
 void Grid_Turn(Shape *shape);
 void Grid_Down(Shape *shape);
 void Grid_Right(Shape *shape);

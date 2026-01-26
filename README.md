@@ -4,7 +4,7 @@
 Just another Tetris game written in C and using SDL3.
 
 <p align="center">
-  <img src="assets/screenshot.png" alt="a screenshot of the tetris" width="480" />
+  <img src="assets/screenshot.png" alt="a screenshot of the tetris" width="400" />
 </p>
 
 ## Building on Linux

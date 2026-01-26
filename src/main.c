@@ -133,11 +133,6 @@ start:
                     level = calculateLevel(cleansCount);
                     pauseDuration = calculatePauseDuration(level);
 
-                    // TODO: походу во время паузы события нажатия клавиш копятся в стеке а после
-                    // паузы все разом срабатывают. Надо что то с этим сделать
-                    UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
-                    SDL_Delay(pauseDuration);
-
                     lastTime = SDL_GetTicks();
                 }
 

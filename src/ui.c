@@ -136,7 +136,7 @@ void UI_Refresh(int cleansCount, Shape *shape, int level)
     UI_printText("Next", 350, 350, normalStyle);
     UI_showShape(shape, 350, 410);
 
-    UI_printText("↑↓←→ Movements    ␣ Drop    R Restart    Q Quit", 20, 670, smallStyle);
+    UI_printText("↑↓←→␣ Move     P Pause     R Restart     Q Quit", 20, 670, smallStyle);
 
     UI_areaShow();
     UI_gridShow();

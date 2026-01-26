@@ -7,7 +7,7 @@
 #include "grid.h"
 
 #define INIT_PAUSE_DURATION 1000
-#define LEVEL_THRESHOLD 20 // Каждые LEVEL_THRESHOLD строк увеличиваем level
+#define LEVEL_THRESHOLD 20 // Каждые LEVEL_THRESHOLD очищенных строк увеличиваем level
 #define PAUSE_REDUCING 50 // Каждый level уменьшаем паузу на PAUSE_REDUCING
 
 Shape shape, nextShape;
@@ -16,6 +16,7 @@ int lastTime = 0, currentTime, pauseTime = 0;
 int level = 0;
 int cleansCount = 0;
 int pauseDuration = INIT_PAUSE_DURATION;
+bool gamePause;
 
 int calculateLevel(int cleansCount)
 {
@@ -43,6 +44,7 @@ start:
     level = 0;
     cleansCount = 0;
     pauseDuration = INIT_PAUSE_DURATION;
+    gamePause = false;
 
     Grid_Init();
 
@@ -61,36 +63,47 @@ start:
                 done = true;
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
                 if (event.key.scancode == SDL_SCANCODE_Q) {
+                    // Exit
                     done = true;
-                } else if (event.key.scancode == SDL_SCANCODE_DOWN) {
-                    if (Grid_CanMoveDown(&shape)) {
-                        Grid_Down(&shape);
-                        lastTime = SDL_GetTicks();
-                    }
-                } else if (event.key.scancode == SDL_SCANCODE_RIGHT) {
-                    if (Grid_CanMoveRight(&shape)) {
-                        Grid_Right(&shape);
-                    }
-                } else if (event.key.scancode == SDL_SCANCODE_LEFT) {
-                    if (Grid_CanMoveLeft(&shape)) {
-                        Grid_Left(&shape);
-                    }
-                } else if (event.key.scancode == SDL_SCANCODE_UP) {
-                    if (Grid_CanTurn(&shape)) {
-                        Grid_Turn(&shape);
-                    }
-                } else if (event.key.scancode == SDL_SCANCODE_SPACE) {
-                    while (Grid_CanMoveDown(&shape)) {
-                        Grid_Down(&shape);
+                } else if (event.key.scancode == SDL_SCANCODE_P) {
+                    // Pause
+                    if (gamePause == true) {
+                        gamePause = false;
+                    } else {
+                        gamePause = true;
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_R) {
+                    // Restart
                     goto start;
+                } else if (gamePause == false) {
+                    if (event.key.scancode == SDL_SCANCODE_DOWN) {
+                        if (Grid_CanMoveDown(&shape)) {
+                            Grid_Down(&shape);
+                            lastTime = SDL_GetTicks();
+                        }
+                    } else if (event.key.scancode == SDL_SCANCODE_RIGHT) {
+                        if (Grid_CanMoveRight(&shape)) {
+                            Grid_Right(&shape);
+                        }
+                    } else if (event.key.scancode == SDL_SCANCODE_LEFT) {
+                        if (Grid_CanMoveLeft(&shape)) {
+                            Grid_Left(&shape);
+                        }
+                    } else if (event.key.scancode == SDL_SCANCODE_UP) {
+                        if (Grid_CanTurn(&shape)) {
+                            Grid_Turn(&shape);
+                        }
+                    } else if (event.key.scancode == SDL_SCANCODE_SPACE) {
+                        while (Grid_CanMoveDown(&shape)) {
+                            Grid_Down(&shape);
+                        }
+                    }
                 }
             }
         }
 
         currentTime = SDL_GetTicks();
-        if (currentTime > lastTime + pauseDuration) {
+        if (gamePause == false && currentTime > lastTime + pauseDuration) {
             if (Grid_CanMoveDown(&shape)) {
                 Grid_Down(&shape);
             }

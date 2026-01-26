@@ -40,7 +40,7 @@ int UI_getGColor(int color);
 int UI_getBColor(int color);
 void UI_drawSquare(int x, int y, int col, int row, int color);
 void UI_clearSquare(int x, int y, int col, int row);
-void UI_Refresh(int cleansCount, Shape *shape, int level);
+void UI_Refresh(int cleansCount, Shape *shape, int level, bool isGamePause);
 void UI_areaShow();
 void UI_gridShow();
 void UI_printText(char *text, float x, float y, TextStyle style);

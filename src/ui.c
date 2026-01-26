@@ -6,7 +6,7 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 char str[20];
 
-TextStyle smallStyle, normalStyle;
+TextStyle smallStyle, normalStyle, bigStyle;
 
 extern int grid[GRID_WIDTH][GRID_HEIGHT];
 
@@ -38,12 +38,21 @@ bool UI_CreateWindow(char *title, int width, int height)
         return false;
     }
 
+    SDL_Color bigStyleColor = { 255, 0, 0, 255 };
+    bigStyle.color = bigStyleColor;
+    bigStyle.font = TTF_OpenFont("./assets/font.ttf", 60.0f);
+    if (!bigStyle.font) {
+        SDL_Log("Failed to load font: %s", SDL_GetError());
+        return false;
+    }
+
     return true;
 }
 
 void UI_DestroyWindow()
 {
     //SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(bigStyle.font);
     TTF_CloseFont(normalStyle.font);
     TTF_CloseFont(smallStyle.font);
     SDL_DestroyRenderer(renderer);
@@ -120,7 +129,7 @@ void UI_clearSquare(int x, int y, int col, int row)
     SDL_RenderFillRect(renderer, &outer);
 }
 
-void UI_Refresh(int cleansCount, Shape *shape, int level)
+void UI_Refresh(int cleansCount, Shape *shape, int level, bool isGamePause)
 {
     SDL_SetRenderDrawColor(
         renderer, UI_getRColor(WINDOW_COLOR), UI_getGColor(WINDOW_COLOR), UI_getBColor(WINDOW_COLOR), 0xff
@@ -140,6 +149,10 @@ void UI_Refresh(int cleansCount, Shape *shape, int level)
 
     UI_areaShow();
     UI_gridShow();
+
+    if (isGamePause) {
+        UI_printText("Pause", 70, 250, bigStyle);
+    }
 
     SDL_RenderPresent(renderer);
 }

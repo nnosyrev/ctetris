@@ -52,7 +52,7 @@ start:
     nextShape = Grid_CreateShape();
 
     Grid_DrawShape(&shape);
-    UI_Refresh(cleansCount, &nextShape, level);
+    UI_Refresh(cleansCount, &nextShape, level, gamePause);
 
     bool done = false;
     while (!done) {
@@ -71,6 +71,7 @@ start:
                         gamePause = false;
                     } else {
                         gamePause = true;
+                        UI_Refresh(cleansCount, &nextShape, level, gamePause);
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_R) {
                     // Restart
@@ -112,7 +113,7 @@ start:
         }
 
         if (Grid_IsShapeChanged(&shape)) {
-            UI_Refresh(cleansCount, &nextShape, level);
+            UI_Refresh(cleansCount, &nextShape, level, gamePause);
             Grid_MarkAsUpdated(&shape);
         }
 
@@ -132,7 +133,7 @@ start:
 
                     // TODO: походу во время паузы события нажатия клавиш копятся в стеке а после
                     // паузы все разом срабатывают. Надо что то с этим сделать
-                    UI_Refresh(cleansCount, &nextShape, level);
+                    UI_Refresh(cleansCount, &nextShape, level, gamePause);
                     SDL_Delay(pauseDuration);
 
                     lastTime = SDL_GetTicks();
@@ -142,7 +143,7 @@ start:
                 nextShape = Grid_CreateShape();
 
                 Grid_DrawShape(&shape);
-                UI_Refresh(cleansCount, &nextShape, level);
+                UI_Refresh(cleansCount, &nextShape, level, gamePause);
 
                 pauseTime = 0;
             }

@@ -1,7 +1,11 @@
 
 # Tetris
 
-Just another Tetris game.
+Just another Tetris game written in C and using SDL3.
+
+<p align="center">
+  <img src="assets/screenshot.png" alt="a screenshot of the tetris">
+</p>
 
 ## Building on Linux
 

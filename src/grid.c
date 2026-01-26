@@ -201,7 +201,7 @@ bool Grid_CanMoveDown(Shape *shape)
     return true;
 }
 
-bool Grid_CheckFullLines()
+bool Grid_CheckFullRows()
 {
     int count;
     for (int8_t y = GRID_HEIGHT - 1; y >= 0; y--) {
@@ -212,6 +212,24 @@ bool Grid_CheckFullLines()
             }
         }
         if (count == GRID_WIDTH) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Grid_CheckFullCols()
+{
+    int count;
+    for (int8_t col = 0; col < GRID_WIDTH; col++) {
+        count = 0;
+        for (int8_t row = 0; row < GRID_HEIGHT; row++) {
+            if (grid[col][row] != 0) {
+                count++;
+            }
+        }
+        if (count == GRID_HEIGHT) {
             return true;
         }
     }
@@ -257,7 +275,7 @@ void Grid_IdentifySections(Section sections[MAX_SECTIONS])
     }
 }
 
-int Grid_DeleteFullLines()
+int Grid_DeleteFullRows()
 {
     int cleansCount = 0;
 

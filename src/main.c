@@ -12,11 +12,12 @@
 
 Shape shape, nextShape;
 
-int lastTime = 0, currentTime, pauseTime = 0;
-int level = 0;
-int cleansCount = 0;
-int pauseDuration = INIT_PAUSE_DURATION;
-bool gamePause;
+int lastTime, currentTime, pauseTime;
+int level;
+int cleansCount;
+int pauseDuration;
+
+bool gamePause, gameOver;
 
 int calculateLevel(int cleansCount)
 {
@@ -45,6 +46,7 @@ start:
     cleansCount = 0;
     pauseDuration = INIT_PAUSE_DURATION;
     gamePause = false;
+    gameOver = false;
 
     Grid_Init();
 
@@ -52,7 +54,7 @@ start:
     nextShape = Grid_CreateShape();
 
     Grid_DrawShape(&shape);
-    UI_Refresh(cleansCount, &nextShape, level, gamePause);
+    UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
 
     bool done = false;
     while (!done) {
@@ -71,12 +73,12 @@ start:
                         gamePause = false;
                     } else {
                         gamePause = true;
-                        UI_Refresh(cleansCount, &nextShape, level, gamePause);
+                        UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
                     }
                 } else if (event.key.scancode == SDL_SCANCODE_R) {
                     // Restart
                     goto start;
-                } else if (gamePause == false) {
+                } else if (gamePause == false && gameOver == false) {
                     if (event.key.scancode == SDL_SCANCODE_DOWN) {
                         if (Grid_CanMoveDown(&shape)) {
                             Grid_Down(&shape);
@@ -104,7 +106,7 @@ start:
         }
 
         currentTime = SDL_GetTicks();
-        if (gamePause == false && currentTime > lastTime + pauseDuration) {
+        if (gamePause == false && gameOver == false && currentTime > lastTime + pauseDuration) {
             if (Grid_CanMoveDown(&shape)) {
                 Grid_Down(&shape);
             }
@@ -113,7 +115,7 @@ start:
         }
 
         if (Grid_IsShapeChanged(&shape)) {
-            UI_Refresh(cleansCount, &nextShape, level, gamePause);
+            UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
             Grid_MarkAsUpdated(&shape);
         }
 
@@ -125,15 +127,15 @@ start:
             if (pauseTime != 0 && SDL_GetTicks() > pauseTime + pauseDuration) {
                 Grid_FixShapeToGrid(&shape);
 
-                if (Grid_CheckFullLines()) {
-                    cleansCount += Grid_DeleteFullLines();
+                if (Grid_CheckFullRows()) {
+                    cleansCount += Grid_DeleteFullRows();
 
                     level = calculateLevel(cleansCount);
                     pauseDuration = calculatePauseDuration(level);
 
                     // TODO: походу во время паузы события нажатия клавиш копятся в стеке а после
                     // паузы все разом срабатывают. Надо что то с этим сделать
-                    UI_Refresh(cleansCount, &nextShape, level, gamePause);
+                    UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
                     SDL_Delay(pauseDuration);
 
                     lastTime = SDL_GetTicks();
@@ -143,7 +145,7 @@ start:
                 nextShape = Grid_CreateShape();
 
                 Grid_DrawShape(&shape);
-                UI_Refresh(cleansCount, &nextShape, level, gamePause);
+                UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
 
                 pauseTime = 0;
             }

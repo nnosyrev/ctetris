@@ -51,7 +51,6 @@ bool UI_CreateWindow(char *title, int width, int height)
 
 void UI_DestroyWindow()
 {
-    //SDL_DestroyTexture(textTexture);
     TTF_CloseFont(bigStyle.font);
     TTF_CloseFont(normalStyle.font);
     TTF_CloseFont(smallStyle.font);
@@ -129,7 +128,7 @@ void UI_clearSquare(int x, int y, int col, int row)
     SDL_RenderFillRect(renderer, &outer);
 }
 
-void UI_Refresh(int cleansCount, Shape *shape, int level, bool isGamePause)
+void UI_Refresh(int cleansCount, Shape *shape, int level, bool isGamePause, bool isGameOver)
 {
     SDL_SetRenderDrawColor(
         renderer, UI_getRColor(WINDOW_COLOR), UI_getGColor(WINDOW_COLOR), UI_getBColor(WINDOW_COLOR), 0xff
@@ -152,6 +151,10 @@ void UI_Refresh(int cleansCount, Shape *shape, int level, bool isGamePause)
 
     if (isGamePause) {
         UI_printText("Pause", 70, 250, bigStyle);
+    }
+
+    if (isGameOver) {
+        UI_printText("Game over!", 60, 250, bigStyle);
     }
 
     SDL_RenderPresent(renderer);

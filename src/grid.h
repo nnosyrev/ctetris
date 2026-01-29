@@ -197,7 +197,7 @@ bool Grid_CanMoveLeft(Shape *shape);
 bool Grid_CanMoveDown(Shape *shape);
 bool Grid_CanTurn(Shape *shape);
 bool Grid_CheckFullRows();
-bool Grid_CheckFullCols();
+bool Grid_CheckFullArea();
 void Grid_IdentifySections(Section sections[2]);
 int Grid_DeleteFullRows();
 void Grid_DropPart(Section *section);

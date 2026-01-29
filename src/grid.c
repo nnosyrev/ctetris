@@ -208,19 +208,20 @@ bool Grid_CheckFullRows()
     return false;
 }
 
-bool Grid_CheckFullCols()
+bool Grid_CheckFullArea()
 {
-    int count;
-    for (int8_t col = 0; col < GRID_WIDTH; col++) {
-        count = 0;
-        for (int8_t row = 0; row < GRID_HEIGHT; row++) {
-            if (grid[col][row] != 0) {
+    int count = 0;
+    for (int8_t y = GRID_HEIGHT - 1; y >= 0; y--) {
+        for (int8_t x = 0; x < GRID_WIDTH; x++) {
+            if (grid[x][y] != 0) {
                 count++;
+                break;
             }
         }
-        if (count == GRID_HEIGHT) {
-            return true;
-        }
+    }
+
+    if (count == GRID_HEIGHT) {
+        return true;
     }
 
     return false;

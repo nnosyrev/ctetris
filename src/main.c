@@ -67,7 +67,7 @@ start:
                 if (event.key.scancode == SDL_SCANCODE_Q) {
                     // Exit
                     done = true;
-                } else if (event.key.scancode == SDL_SCANCODE_P) {
+                } else if (event.key.scancode == SDL_SCANCODE_P && gameOver == false) {
                     // Pause
                     if (gamePause == true) {
                         gamePause = false;
@@ -119,7 +119,7 @@ start:
             Grid_MarkAsUpdated(&shape);
         }
 
-        if (!Grid_CanMoveDown(&shape)) {
+        if (!Grid_CanMoveDown(&shape) && gameOver == false) {
             if (pauseTime == 0) {
                 pauseTime = SDL_GetTicks();
             }
@@ -138,6 +138,11 @@ start:
                 nextShape = Grid_CreateShape();
 
                 Grid_DrawShape(&shape);
+
+                if (Grid_CheckFullArea()) {
+                    gameOver = true;
+                }
+
                 UI_Refresh(cleansCount, &nextShape, level, gamePause, gameOver);
 
                 pauseTime = 0;

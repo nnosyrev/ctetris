@@ -154,7 +154,7 @@ void UI_Refresh(int cleansCount, Shape *shape, int level, bool isGamePause, bool
     }
 
     if (isGameOver) {
-        UI_printText("Game over!", 60, 250, bigStyle);
+        UI_printText("Game over!", 70, 250, bigStyle);
     }
 
     SDL_RenderPresent(renderer);

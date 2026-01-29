@@ -125,8 +125,6 @@ start:
             }
 
             if (pauseTime != 0 && SDL_GetTicks() > pauseTime + pauseDuration) {
-                Grid_FixShapeToGrid(&shape);
-
                 if (Grid_CheckFullRows()) {
                     cleansCount += Grid_DeleteFullRows();
 

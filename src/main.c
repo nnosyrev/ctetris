@@ -31,7 +31,7 @@ int calculatePauseDuration(int level)
 
 int main(int argc, char* argv[])
 {
-    if (!UI_CreateWindow("Title", 510, 700)) {
+    if (!UI_CreateWindow("Tetris", 510, 700)) {
         return EXIT_FAILURE;
     }
 
